@@ -1,0 +1,11 @@
+<html>
+<style>*{box-sizing:border-box}.header{text-align:center;padding:32px}.column{float:left;width:25%;padding:10px}.column img{margin-top:12px;width:100%}.row:after{content:\"\";display:table;clear:both}body{margin:0;font-family:Arial;overflow:scroll;max-width:1200px;margin:auto;padding:10px;background-color:#000;overflow:scroll}.container{height:auto;display:flex}</style>
+<div id=content>
+<div class=UserInput style=padding:1%;align-items:center>
+<input title=\"prompt input\" placeholder=\"Enter in the your prompt for AI Art Generation\" label=\"Enter what you want to see\" id=prompt style=width:100%;padding:5px>
+<button type=button onclick=generate() style=padding:5px;margin:auto;width:50%;margin-left:25%>Generate</button>
+</div>
+<flexbox id=container></flexbox>
+</div>
+<script>function generate(){var e=document.getElementById(\"prompt\").value;if(null!=e)for(let t=1;t<=8;t++){const n=document.createElement(\"div\"),a=document.createElement(\"a\");n.className=\"column\";const c=new Image;c.src=`https://api.computerender.com/generate/${e}?seed=${t}`,a.appendChild(c),a.href=c.src,a.target=\"_blank\",n.appendChild(a),document.getElementById(\"container\").appendChild(n),e.value=void 0}}</script>
+</html>

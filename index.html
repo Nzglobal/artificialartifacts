@@ -1,0 +1,80 @@
+<html>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .header {
+        text-align: center;
+        padding: 32px;
+    }
+
+    /* Create two equal columns that floats next to each other */
+    .column {
+        float: left;
+        width: 25%;
+        padding: 10px;
+    }
+
+    .column img {
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial;
+        overflow: scroll;
+        max-width: 1200px;
+        margin: auto;
+        padding: 10px;
+        background-color: black;
+        overflow: scroll;
+    }
+
+    .container {
+        height: auto;
+        display: flex;
+    }
+</style>
+<div id="content">
+    <div class="UserInput" style="padding:1%;align-items: center;">
+        <input title="prompt input" placeholder="Enter in the your prompt for AI Art Generation"
+            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" />
+        <button type="button" onclick="generate()"
+            style="padding:5px;margin:auto;width:50%;margin-left:25%;">Generate</button>
+    </div>
+    <flexbox id="container"></flexbox>
+</div>
+<script>
+    function generate() {
+        var prompt = document.getElementById("prompt").value;
+
+        if (prompt != undefined) {
+            for (let i = 1; i <= 8; i++) {
+                const col = document.createElement("div");
+                const link = document.createElement("a");
+                col.className = "column";
+                const img = new Image();
+                img.src =
+                    `https://api.computerender.com/generate/${prompt}?seed=${i}`;
+                link.appendChild(img)
+                link.href = img.src;
+                link.target = "_blank";
+                col.appendChild(link);
+
+                document.getElementById("container").appendChild(col);
+                prompt.value = undefined;
+            }
+        }
+    }
+</script>
+
+</html>
