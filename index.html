@@ -1,4 +1,16 @@
 <html>
+<title>&#127912 Artificial Artifacts</title>
+
+<head>
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
+    <!--<link rel="manifest" href="https://artificialartifacts9b50.blob.core.windows.net/www/site.webmanifest">-->
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     * {
         box-sizing: border-box;
@@ -11,8 +23,7 @@
 
     /* Create two equal columns that floats next to each other */
     .column {
-        float: left;
-        width: 25%;
+        float: left; 
         padding: 10px;
     }
 
@@ -35,8 +46,11 @@
         max-width: 1200px;
         margin: auto;
         padding: 10px;
-        background-color: black;
+        background-color: rgb(19, 18, 18);
         overflow: scroll;
+        /*background:url("https://source.unsplash.com/random?geometric/1280x720");
+        background-size:cover;
+        backdrop-filter: blur(20px);*/
     }
 
     .container {
@@ -44,33 +58,76 @@
         display: flex;
     }
 </style>
+
 <div id="content">
     <div class="UserInput" style="padding:1%;align-items: center;">
-        <input title="prompt input" placeholder="Enter in the your prompt for AI Art Generation"
-            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" />
-        <button type="button" onclick="generate()"
+        <input title="prompt input"
+            placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
+            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;"
+            autocomplete="off" />
+        <button type="button" id="btnGenerate" onclick="generate()"
             style="padding:5px;margin:auto;width:50%;margin-left:25%;">Generate</button>
+            <!--<button id="btnDownload"
+            style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
     </div>
     <flexbox id="container"></flexbox>
 </div>
 <script>
+    function downloadAll() {
+        var images = document.getElementsByTagName('img');
+        var srcList = [];
+        var i = 0;
+        if (images.length > i) {
+            srcList.push(images[i].src);
+            var link = document.createElement("a");
+            link.id = i;
+            link.download = images[i].src;
+            //link.href = images[i].src;
+            //link.click();
+            i++;
+        }
+
+    }
+
     function generate() {
         var prompt = document.getElementById("prompt").value;
 
-        if (prompt != undefined) {
+        if (prompt != undefined && prompt != "") {
             for (let i = 1; i <= 8; i++) {
                 const col = document.createElement("div");
                 const link = document.createElement("a");
+                var btnGenerate = document.getElementById("btnGenerate");
                 col.className = "column";
                 const img = new Image();
-                img.src =
-                    `https://api.computerender.com/generate/${prompt}?seed=${i}`;
+                const loader = new Image();
+                loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner2.gif";            
+                loader.id = "loader";   
+                img.onload = function(){
+                    window.title = "Artificial Artifacts";
+                    loader.style.display = 'none';
+                    btnGenerate.innerText = "Generate";                    
+                }
+                img.onerror = function(){
+                    img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
+                    window.title = "&#x2705; Arificial Artifacts"
+                };
+                btnGenerate.innerText = "Generating...";
+                document.title = "Generating";
+                img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;      
+                link.appendChild(loader);
                 link.appendChild(img)
-                link.href = img.src;
+                link.href =  `/api/downloader?url=https://api.computerender.com/generate/${prompt}?seed=${i}`; //img.src;
+                link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
                 link.target = "_blank";
                 col.appendChild(link);
 
-                document.getElementById("container").appendChild(col);
+                var container = document.getElementById("container");
+                if (container.children?.length >= 8) {
+                    container.prepend(col);
+                }
+                else {
+                    container.appendChild(col);
+                }
                 prompt.value = undefined;
             }
         }
