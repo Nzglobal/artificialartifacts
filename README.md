@@ -1,7 +1,7 @@
 # artificialartifacts
 
 Generate Mind blowing 🤯 AI Generated Art 🎨
-This tool utilizes [ComputerRender](https://computerender.com/) for the image generation,
+This tool utilizes [ComputerRenderer](https://computerender.com/) for the image generation,
 taking a text based prompt and producing an image based off of it.
 
 Hosted at:  [NZART.APP](https://nzart.app/)
