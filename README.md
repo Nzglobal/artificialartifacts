@@ -6,9 +6,9 @@ taking a text based prompt and producing an image based off of it.
 
 ## Guide
 It helps to tell the AI
--What you want to see
--How you want to see it (the medium)
--What style you want to see it in
+- What you want to see
+- How you want to see it (the medium)
+- What style you want to see it in
 
 ## Examples
 - Smartest man in the universe Rick Sanchez, japanese anime style, hyper detailed, 8k, featured on artstation
