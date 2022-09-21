@@ -7,7 +7,7 @@ taking a text based prompt and producing an image based off of it.
 Hosted at:  [NZART.APP](https://nzart.app/)
 
 ## Guide
-It helps to tell the AI
+It helps to tell the AI - For inspiration check out the prompts over at: [Lexica](https://lexica.art/)
 - What you want to see
 - How you want to see it (the medium)
 - What style you want to see it in
