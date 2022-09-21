@@ -100,7 +100,7 @@
             <input title="prompt input"
                 placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
                 label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" autocomplete="off" />
-            <button type="button" id="btnGenerate" onclick="generate()"
+            <button type="button" id="btnGenerate" onload="fixUrl()" onclick="generate()"
                 style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#128259; Generate</button>
                 <button type="button" id="btnShare" onclick="share()"
                 style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy link to clipboard</button>
@@ -138,6 +138,10 @@
                 var share = document.getElementById("btnShare");
                 share.innerHTML = "&#x1F517;Copy link to clipboard";
             }
+
+			function fixUrl(){
+				window.history.pushState("https://nzart.app","Artificial Artifacts","/");
+			}
     
             const params = new Proxy(new URLSearchParams(window.location.search), {
                 get: (searchParams, prop) => searchParams.get(prop),
@@ -145,10 +149,11 @@
             // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
             let seed = params.seed;
             let queryPrompt = params.prompt; // "prompt"      
-            if (queryPrompt != undefined) {
+            if (queryPrompt != undefined) {			
                 console.log(`prompt:${queryPrompt}-seed:${seed}`);
                 var input = document.getElementById("prompt");
                 input.value = queryPrompt;
+				fixUrl();
                 generate();
             }
     
@@ -185,7 +190,7 @@
                         img.onerror = function () {
                             img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
 							img.style.width = "512px";
-                            document.title = "&#x2705; Arificial Artifacts"
+                            document.title = "Arificial Artifacts"
                         };
                         btnGenerate.innerHTML = "&#x1F914; - Generating...";
                         document.title = "Generating";
