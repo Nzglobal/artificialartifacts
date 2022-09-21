@@ -108,7 +108,7 @@
             <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
         </div>
-        <flexbox id="container"></flexbox>
+        <flexbox id="container" onload="fixUrl();"></flexbox>
         <script>
             function downloadAll() {
                 var images = document.getElementsByTagName('img');
@@ -153,7 +153,6 @@
                 console.log(`prompt:${queryPrompt}-seed:${seed}`);
                 var input = document.getElementById("prompt");
                 input.value = queryPrompt;
-				fixUrl();
                 generate();
             }
     
