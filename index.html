@@ -96,9 +96,10 @@
     .container {
         height: auto;
         display: flex;
-    }   
-    .loader{
-        box-shadow: none!important;
+    }
+
+    .loader {
+        box-shadow: none !important;
     }
 </style>
 
@@ -118,23 +119,25 @@
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
     </div>
     <flexbox id="container" onload="fixUrl();"></flexbox>
-    <!--<footer><i>Webapp created with 💕 by Jeremiah - Powered by Computerender</i></footer>-->
+
+    <div id="inspirationHeader"
+        style="background: linear-gradient(to top, #4e4376, #2b5876);padding:1%;align-items: center;display:none;">
+        <h1 style="color:white;">Inspiration</h1>
+        <p style="color:white;">Here are some prompts that others have used - Click the prompt text to copy into the generator prompt box.
+            Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
+        <flexbox id="inspiration" onload="fixUrl();"></flexbox>
+    </div>
+
+
     <script>
-        function downloadAll() {
-            var images = document.getElementsByTagName('img');
-            var srcList = [];
-            var i = 0;
-            if (images.length > i) {
-                if (images[i].currentSrc.startsWith("https://api.computer")) {
-                    srcList.push(images[i].src);
-                    var link = document.createElement("a");
-                    link.id = i;
-                    link.download = images[i].src;
-                    link.href = images[i].src;
-                    link.click();
-                    i++;
-                }
-            }
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+
+        let imagesLoaded = 0;
+        let numberToGenerate = 6;
+        if (params.iteration != undefined) {
+            numberToGenerate = params.iteration;
         }
 
         var input = document.getElementById("prompt");
@@ -153,9 +156,6 @@
             window.history.pushState("https://nzart.app", "Artificial Artifacts", "/");
         }
 
-        const params = new Proxy(new URLSearchParams(window.location.search), {
-            get: (searchParams, prop) => searchParams.get(prop),
-        });
         // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
         let seed = params.seed;
         let queryPrompt = params.prompt; // "prompt"      
@@ -176,45 +176,116 @@
             setTimeout(resetState, 2000);
         }
 
+        function shuffleTitle() {
+            //updates the title of the webpage every second
+            setInterval(function () {
+                var emojis = ["👨‍🎨", "👩‍🎨", "🖼️", "🎨", "🎭"];
+                document.title = emojis[Math.floor(Math.random() * emojis.length)] + " Artificial Artifacts";
+            }, 1000);
+        }
+
+        //function to check every 500ms whether imagesLoaded is equal to numberToGenerate
+        function loadCheck() {
+            setInterval(function () {
+                if (imagesLoaded == numberToGenerate) {
+                    imagesLoaded = 0;
+                    console.log("All image requests finished");
+                    var btnGenerate = document.getElementById("btnGenerate")
+                    btnGenerate.innerHTML = "&#128259; Generate";
+                    btnGenerate.disabled = false;
+                }
+            }, 500);
+        }
+
+        //javascript fetch for https://lexica.art/api/v1/search?q=apples which loads images based off the image src
+        function apiFetch(url, callback) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => callback(data));
+        }
+
         function generate() {
-            let numberToGenerate = 6;
+            console.log("Generating...");
             var prompt = document.getElementById("prompt").value;
+            var inspirationHeader = document.getElementById("inspirationHeader");
+            inspirationHeader.style = "display:block;"
+
+            apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
+                console.log(data);
+                //sort data based by the height attribute
+                data.images.sort(function (a, b) {
+                    return a.height - b.height;
+                }).reverse();
+
+                var container = document.getElementById("inspiration");
+                container.innerHTML = "";
+                for (var i = 0; i < data.images.length; i++) {
+                    var column = document.createElement("div");
+                    column.className = "column";
+                    column.style = "width:25%;height:auto;margin:10px";
+
+                    var img = document.createElement("img");
+                    img.setAttribute("loading", "lazy");
+                    img.src = data.images[i].src;
+                    img.style = "height:auto;";
+
+                    var header = document.createElement("div");
+                    //header on click will copy the text to the clipboard
+                    header.onclick = function () {
+                        var prompt = document.getElementById("prompt");
+                        prompt.value = this.textContent;
+                        navigator.clipboard.writeText(this.textContent);
+                        this.innerHTML = "&#x2705; - Copied to clipboard";
+                    }
+                    header.innerHTML = data.images[i].prompt;
+                    header.style = "color:white;margin:10px;text-align:center;";
+                    column.appendChild(img);
+                    column.appendChild(header);
+                    container.appendChild(column);
+                }
+            });
+            
             if (prompt != undefined && prompt != "") {
+                shuffleTitle();
+                loadCheck();
                 for (let i = 1; i <= numberToGenerate; i++) {
                     const col = document.createElement("div");
                     const link = document.createElement("a");
                     var btnGenerate = document.getElementById("btnGenerate");
+                    btnGenerate.disabled = true;
                     col.className = "column";
                     const img = new Image();
                     const loader = new Image();
                     loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner.svg";
                     loader.classList.add('loader');
                     loader.id = "loader";
-                    loader.style.width = "238px";
-                    loader.style.margin ="128px";
+                    loader.style = "width:238px;margin:128px;"
 
                     img.onload = function () {
                         document.title = "Artificial Artifacts";
-                        loader.style.display = "none";
-                        loader.style.width = "0px"
-                        btnGenerate.innerHTML = "&#128259; Generate";
+                        loader.style = "display:none;width:0px;";
+                        imagesLoaded++;
                     }
                     img.onerror = function () {
                         img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
-                        img.style.width = "512px";
+                        img.style = "width:512px;";
                         document.title = "Arificial Artifacts"
+                        imagesLoaded++;
                     };
                     btnGenerate.innerHTML = "&#x1F914; - Generating...";
-                    document.title = "Generating";
-                    img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
-                    //img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";//
-                    img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
-
+                    document.title = "Generating...";
+                    //provided ?test = true will use a test image
+                    if (params.test != undefined) {
+                        img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
+                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
+                    } else {
+                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
+                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
+                    }
                     link.appendChild(loader);
                     link.appendChild(img)
-                    //link.href = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png"; 
-                    link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`; //img.src;
-                    link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
+
+                    link.download = `${prompt}-${i}.png`;
                     link.target = "_blank";
                     col.appendChild(link);
 
