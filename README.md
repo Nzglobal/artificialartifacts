@@ -16,6 +16,7 @@ It helps to tell the AI - For inspiration check out the prompts over at: [Lexica
 - Smartest man in the universe Rick Sanchez, japanese anime style, hyper detailed, 8k, featured on artstation
 - Mc escher inspired, city skyline,purple and gold, sacred Geometry, Baroque art, Cinematic lighting, in style of Artgerm, WLOP, Peter Mohrbacher, William adolphe Bouguereau, cgsociety, artstation, Rococo and baroque
 - A kraken, hosting a tea party with Alice in Wonderland, expertly using all his tentacles. Award Winning movie frame
+- A galaxy colored psychedelic chakra awakening kundalini ethereal portrait of a dog with its eyes closed
 
 ## Gallery
 <p float="left">
