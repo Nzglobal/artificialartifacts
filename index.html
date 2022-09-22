@@ -193,10 +193,11 @@
                         };
                         btnGenerate.innerHTML = "&#x1F914; - Generating...";
                         document.title = "Generating";
-                        img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
+                        //img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
+                        img.src = `https://nzart.app/api/downloader?prompt=/${prompt}&seed=${i}`;
                         link.appendChild(loader);
                         link.appendChild(img)
-                        link.href = `/api/downloader?url=https://api.computerender.com/generate/${prompt}?seed=${i}`; //img.src;
+                        link.href = `https://nzart.app/api/downloader?prompt=/${prompt}&seed=${i}`; //img.src;
                         link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
                         link.target = "_blank";
                         col.appendChild(link);
