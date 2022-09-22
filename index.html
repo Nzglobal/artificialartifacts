@@ -1,217 +1,234 @@
 <!DOCTYPE html>
 <html>
-    <title>&#127912 Artificial Artifacts</title>    
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel=“canonical” href=“https://nzart.app/api/generator” />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_NZ" />
-        <meta property="og:url" content="https://nzart.app"/>
-        <meta property="og:title" content="Artificial Artifacts" />
-        <meta property="og:description" content="Generate Mind Blowing Art with the help of Artificial Intelligence." />
-        <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
-        <link rel="apple-touch-icon" sizes="180x180"
-            href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32"
-            href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16"
-            href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
-        <link rel="manifest" href="https://nzart.app/api/manifest">
-    </head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
-    <script>
+<title>&#127912 Artificial Artifacts</title>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel=“canonical” href=“https://nzart.app/api/generator” />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_NZ" />
+    <meta property="og:url" content="https://nzart.app" />
+    <meta property="og:title" content="Artificial Artifacts" />
+    <meta property="og:description" content="Generate Mind Blowing Art with the help of Artificial Intelligence." />
+    <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
+    <link rel="manifest" href="https://nzart.app/api/manifest">
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
+<script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
 
     gtag('config', 'G-2QSZV6W319');
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-    
-        .header {
-            text-align: center;
-            padding: 32px;
-        }
-    
-        /* Create two equal columns that floats next to each other */
-        .column {
-            float: left;
-            padding: 10px;
-        }
-    
-        .column img {
-            margin-top: 12px;
-            width: 100%;
-        }
-    
-        /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-    
-        body {
-            margin: 0;
-            font-family: Arial;
-            overflow: scroll;
-            max-width: 1088px;
-            min-height:2160px;
-            margin: auto;
-            padding: 10px;
-            background-color: rgb(19, 18, 18);
-            overflow: scroll;
-            /*background:url("https://source.unsplash.com/random?geometric/1280x720");
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    /*Helpful in terms of calculating sizes*/
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Create two equal columns that floats next to each other */
+    .column {
+        float: left;
+        padding: 10px;
+    }
+
+    .column img {
+        margin-top: 12px;
+        width: 100%;
+    }
+
+    .container:has(img:hover) {
+        scale: .8;
+        opacity: .7;
+        transition: scale 350ms ease, opacity 350ms linear;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial;
+        overflow: scroll;
+        max-width: 1088px;
+        min-height: 2160px;
+        margin: auto;
+        padding: 10px;
+        overflow: scroll;
+        background: linear-gradient(to top, #4e4376, #2b5876);
+        overflow-x: hidden;
+        /*
+            background image would cover entire page, but blur would only affect content in vertical strip
+            background:url("https://source.unsplash.com/random?geometric/1280x720");
             background-size:cover;
             backdrop-filter: blur(20px);*/
-            background: linear-gradient(to top, #4e4376, #2b5876);
-            overflow-x: hidden;
-        }
-    
-        input:hover,
-        input:focus {
-            box-shadow: 0px 0px 20px 5px #ffffc854;
-            transition: all 0.2s ease-in;
-        }
-    
-        img:hover {
-            box-shadow: 0px 0px 20px 5px #ffffc854;
-            transition: all 0.2s ease-in;
-        }
-    
-        button:hover {
-            box-shadow: 0px 0px 20px 5px #ffffc854;
-            transition: all 0.2s ease-in;
-        }
-    
-        .container {
-            height: auto;
-            display: flex;
-        }
-    </style>
-    
-    <div id="content">
-        <div class="UserInput" style="padding:1%;align-items: center;">
-            <input title="prompt input"
-                placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
-                label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" autocomplete="off" />
-            <button type="button" id="btnGenerate" onload="fixUrl()" onclick="generate()"
-                style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#128259; Generate</button>
-                <button type="button" id="btnShare" onclick="share()"
-                style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy link to clipboard</button>
-            
-            <!--<button id="btnDownload"
-                style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
-        </div>
-        <flexbox id="container" onload="fixUrl();"></flexbox>
-        <script>
-            function downloadAll() {
-                var images = document.getElementsByTagName('img');
-                var srcList = [];
-                var i = 0;
-                if (images.length > i) {
-                    if (images[i].currentSrc.startsWith("https://api.computer")) {
-                        srcList.push(images[i].src);
-                        var link = document.createElement("a");
-                        link.id = i;
-                        link.download = images[i].src;
-                        link.href = images[i].src;
-                        link.click();
-                        i++;
-                    }
-                }
-            }
-    
-            var input = document.getElementById("prompt");
-            input.addEventListener("keydown", function (e) {
-                if (e.code === "Enter") {
-                    generate();
-                }
-            });
-    
-            function resetState(){
-                var share = document.getElementById("btnShare");
-                share.innerHTML = "&#x1F517;Copy link to clipboard";
-            }
+    }
 
-			function fixUrl(){
-				window.history.pushState("https://nzart.app","Artificial Artifacts","/");
-			}
-    
-            const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: (searchParams, prop) => searchParams.get(prop),
-            });
-            // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
-            let seed = params.seed;
-            let queryPrompt = params.prompt; // "prompt"      
-            if (queryPrompt != undefined) {			
-                console.log(`prompt:${queryPrompt}-seed:${seed}`);
-                var input = document.getElementById("prompt");
-                input.value = queryPrompt;
+    input:hover,
+    input:focus {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    img:hover {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    button:hover {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    .container {
+        height: auto;
+        display: flex;
+    }   
+    .loader{
+        box-shadow: none!important;
+    }
+</style>
+
+<div id="content">
+    <div class="userinput" style="padding:1%;align-items: center;">
+        <input title="prompt input"
+            placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
+            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" autocomplete="off" />
+        <button type="button" id="btnGenerate" onload="fixUrl()" onclick="generate()"
+            style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#128259;
+            Generate</button>
+        <button type="button" id="btnShare" onclick="share()"
+            style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy
+            link to clipboard</button>
+
+        <!--<button id="btnDownload"
+                style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
+    </div>
+    <flexbox id="container" onload="fixUrl();"></flexbox>
+    <!--<footer><i>Webapp created with 💕 by Jeremiah - Powered by Computerender</i></footer>-->
+    <script>
+        function downloadAll() {
+            var images = document.getElementsByTagName('img');
+            var srcList = [];
+            var i = 0;
+            if (images.length > i) {
+                if (images[i].currentSrc.startsWith("https://api.computer")) {
+                    srcList.push(images[i].src);
+                    var link = document.createElement("a");
+                    link.id = i;
+                    link.download = images[i].src;
+                    link.href = images[i].src;
+                    link.click();
+                    i++;
+                }
+            }
+        }
+
+        var input = document.getElementById("prompt");
+        input.addEventListener("keydown", function (e) {
+            if (e.code === "Enter") {
                 generate();
             }
-    
-            function share(){
-                var prompt = document.getElementById("prompt").value;
-                var btnShare = document.getElementById("btnShare");
-                var url = window.location.href + `?prompt=${encodeURIComponent(prompt)}`;
-                // Copy the text inside the text field
-                navigator.clipboard.writeText(url);   
-                btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
-                setTimeout(resetState,2000);
-            }
-    
-            function generate() {
-                var prompt = document.getElementById("prompt").value;
-                if (prompt != undefined && prompt != "") {
-                    for (let i = 1; i <= 6; i++) {
-                        const col = document.createElement("div");
-                        const link = document.createElement("a");
-                        var btnGenerate = document.getElementById("btnGenerate");
-                        col.className = "column";
-                        const img = new Image();
-                        const loader = new Image();
-                        loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner2.gif";
-                        loader.id = "loader";		
-						loader.style.width = "256px";
-                        loader.style.margin = "128px";		
-                        img.onload = function () {
-                            document.title = "Artificial Artifacts";
-                            loader.style.display = "none";				
-							loader.style.width = "0px"
-                            btnGenerate.innerHTML = "&#128259; Generate";
-                        }
-                        img.onerror = function () {
-                            img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
-							img.style.width = "512px";
-                            document.title = "Arificial Artifacts"
-                        };
-                        btnGenerate.innerHTML = "&#x1F914; - Generating...";
-                        document.title = "Generating";
-                        //img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
-                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
-                        link.appendChild(loader);
-                        link.appendChild(img)
-                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`; //img.src;
-                        link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
-                        link.target = "_blank";
-                        col.appendChild(link);
-    
-                        var container = document.getElementById("container");
-                        if (container.children?.length >= 6) {
-                            container.prepend(col);
-                        }
-                        else {
-                            container.appendChild(col);
-                        }
-                        prompt.value = undefined;
+        });
+
+        function resetState() {
+            var share = document.getElementById("btnShare");
+            share.innerHTML = "&#x1F517;Copy link to clipboard";
+        }
+
+        function fixUrl() {
+            window.history.pushState("https://nzart.app", "Artificial Artifacts", "/");
+        }
+
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+        // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
+        let seed = params.seed;
+        let queryPrompt = params.prompt; // "prompt"      
+        if (queryPrompt != undefined) {
+            console.log(`prompt:${queryPrompt}-seed:${seed}`);
+            var input = document.getElementById("prompt");
+            input.value = queryPrompt;
+            generate();
+        }
+
+        function share() {
+            var prompt = document.getElementById("prompt").value;
+            var btnShare = document.getElementById("btnShare");
+            var url = window.location.href + `?prompt=${encodeURIComponent(prompt)}`;
+            // Copy the text inside the text field
+            navigator.clipboard.writeText(url);
+            btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
+            setTimeout(resetState, 2000);
+        }
+
+        function generate() {
+            let numberToGenerate = 6;
+            var prompt = document.getElementById("prompt").value;
+            if (prompt != undefined && prompt != "") {
+                for (let i = 1; i <= numberToGenerate; i++) {
+                    const col = document.createElement("div");
+                    const link = document.createElement("a");
+                    var btnGenerate = document.getElementById("btnGenerate");
+                    col.className = "column";
+                    const img = new Image();
+                    const loader = new Image();
+                    loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner.svg";
+                    loader.classList.add('loader');
+                    loader.id = "loader";
+                    loader.style.width = "238px";
+                    loader.style.margin ="128px";
+
+                    img.onload = function () {
+                        document.title = "Artificial Artifacts";
+                        loader.style.display = "none";
+                        loader.style.width = "0px"
+                        btnGenerate.innerHTML = "&#128259; Generate";
                     }
+                    img.onerror = function () {
+                        img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
+                        img.style.width = "512px";
+                        document.title = "Arificial Artifacts"
+                    };
+                    btnGenerate.innerHTML = "&#x1F914; - Generating...";
+                    document.title = "Generating";
+                    img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
+                    //img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";//
+                    img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
+
+                    link.appendChild(loader);
+                    link.appendChild(img)
+                    //link.href = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png"; 
+                    link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`; //img.src;
+                    link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
+                    link.target = "_blank";
+                    col.appendChild(link);
+
+                    var container = document.getElementById("container");
+                    if (container.children?.length >= numberToGenerate) {
+                        container.prepend(col);
+                    }
+                    else {
+                        container.appendChild(col);
+                    }
+                    prompt.value = undefined;
                 }
-            }        
-        </script>
-    </html>
+            }
+        }        
+    </script>
+
+</html>
