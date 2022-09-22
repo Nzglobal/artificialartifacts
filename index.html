@@ -194,10 +194,10 @@
                         btnGenerate.innerHTML = "&#x1F914; - Generating...";
                         document.title = "Generating";
                         //img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
-                        img.src = `https://nzart.app/api/downloader?prompt=/${prompt}&seed=${i}`;
+                        img.src = `https://nzart.app/api/downloader?prompt=/${prompt}&seed=${i}?generate=true`;
                         link.appendChild(loader);
                         link.appendChild(img)
-                        link.href = `https://nzart.app/api/downloader?prompt=/${prompt}&seed=${i}`; //img.src;
+                        link.href = `https://nzart.app/api/downloader?prompt=/${prompt}&seed=${i}?generate=false`; //img.src;
                         link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
                         link.target = "_blank";
                         col.appendChild(link);
