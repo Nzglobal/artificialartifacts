@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <title>&#127912 Artificial Artifacts</title>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel=“canonical” href=“https://nzart.app/api/generator” />
+    <meta name="description" content="Artificial Artifacts - Use the power of Stable-Diffusion to generate mind blowing art from just a text description" >
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_NZ" />
     <meta property="og:url" content="https://nzart.app" />
@@ -125,7 +126,7 @@
         <h1 style="color:white;">Inspiration</h1>
         <p style="color:white;">Here are some prompts that others have used - Click the prompt text to copy into the generator prompt box.
             Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
-        <flexbox id="inspiration" onload="fixUrl();"></flexbox>
+        <flexbox id="inspiration"></flexbox>
     </div>
 
 
@@ -204,12 +205,9 @@
                 .then(data => callback(data));
         }
 
-        function generate() {
-            console.log("Generating...");
-            var prompt = document.getElementById("prompt").value;
+        function inspirationLoader(prompt){            
             var inspirationHeader = document.getElementById("inspirationHeader");
-            inspirationHeader.style = "display:block;"
-
+            inspirationHeader.style = "display:block;"       
             apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
                 console.log(data);
                 //sort data based by the height attribute
@@ -244,8 +242,13 @@
                     container.appendChild(column);
                 }
             });
-            
+        }
+
+        function generate() {        
+            var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
+                console.log("Generating...");
+                inspirationLoader(prompt);            
                 shuffleTitle();
                 loadCheck();
                 for (let i = 1; i <= numberToGenerate; i++) {
@@ -301,5 +304,4 @@
             }
         }        
     </script>
-
 </html>
