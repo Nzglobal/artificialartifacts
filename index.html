@@ -27,7 +27,8 @@
 </head>
 <!-- Google tag (gtag.js) -->
 <script defer="true" async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
-<script defer="true">window.dataLayer = window.dataLayer || [];function gtag() { dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-2QSZV6W319');</script>
+<script
+    defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     /*Helpful in terms of calculating sizes*/
@@ -41,7 +42,7 @@
         padding: 10px;
     }
 
-    .column img {       
+    .column img {
         width: 100%;
     }
 
@@ -135,6 +136,7 @@
     </div>
     <flexbox id="container" onload="fixUrl();"></flexbox>
 
+
     <div id="inspirationHeader"
         style="background: linear-gradient(to top, #4e4376, #2b5876);padding:1%;align-items: center;display:none;">
         <h1 style="color:white;">Inspiration</h1>
@@ -143,6 +145,7 @@
             Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
         <flexbox id="inspiration"></flexbox>
     </div>
+
     <!-- Install button, hidden by default -->
     <div id="installContainer" style="display:none;">
         <button id="butInstall" type="button">
@@ -188,20 +191,60 @@
             input.value = queryPrompt;
             generate();
         }
+        let id = params.id;
+        if (id != undefined && id.length == 36) {
+            console.log(`id:${id}`);
+            fetchPrompt(id);
+        }
+
+        function fetchPrompt(id) {
+            //downloads data from: https://nzartificialartifacts.azurewebsites.net/api/url-helper?id=id=1bbe7cdb-0c67-4a70-9df8-f5eca84a8efc&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw== and generates based off the PromptText in the JSON returned
+
+            try {
+                var url = `https://nzart.app/api/url-helper?id=${id}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+                apiFetch(url, function (response) {
+                    console.log(response);
+                    var input = document.getElementById("prompt");
+                    input.value = response.PromptText;
+                    generate();
+                });
+            }
+            catch (e) {
+                Alert("Error fetching prompt - please try again");
+            }
+        }
+
+        function savePrompt(prompt) {
+            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            //parse json response
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var RowKey = JSON.parse(xhr.responseText).RowKey;
+                    console.log(`Saved RowKey: ${RowKey}`);
+                    return RowKey;
+                }
+            };
+        }
 
         function share() {
             var prompt = document.getElementById("prompt").value;
+            var id = savePrompt(prompt);
             var btnShare = document.getElementById("btnShare");
-            var url = window.location.href + `?prompt=${encodeURIComponent(prompt)}`;
+            var url = window.location.href + `?id=${id}`;
             // Copy the text inside the text field
             navigator.clipboard.writeText(url);
             btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
             setTimeout(resetState, 2000);
         }
 
+        var shuffuleId = "";
         function shuffleTitle() {
             //updates the title of the webpage every second
-            setInterval(function () {
+            shuffleId = setInterval(function () {
                 var emojis = ["👨‍🎨", "👩‍🎨", "🖼️", "🎨", "🎭"];
                 document.title = emojis[Math.floor(Math.random() * emojis.length)] + " NZ Art App";
             }, 1000);
@@ -216,12 +259,13 @@
                     var btnGenerate = document.getElementById("btnGenerate")
                     btnGenerate.innerHTML = "&#128259; Generate";
                     btnGenerate.disabled = false;
-                    clearInterval(shuffleTitle);
+                    if (shuffuleId != "") {
+                        clearInterval(shuffleId);
+                    }
                 }
             }, 500);
         }
 
-        //javascript fetch for https://lexica.art/api/v1/search?q=apples which loads images based off the image src
         function apiFetch(url, callback) {
             fetch(url)
                 .then(response => response.json())
@@ -241,7 +285,7 @@
                 var container = document.getElementById("inspiration");
                 container.innerHTML = "";
                 for (var i = 0; i < data.images.length; i++) {
-                    const link = document.createElement("a");                    
+                    const link = document.createElement("a");
                     var column = document.createElement("div");
                     column.className = "column";
                     column.style = "width:50%;height:auto;";
@@ -253,9 +297,9 @@
                     img.alt = data.images[i].prompt;
                     link.href = data.images[i].src;
 
-                    var header = document.createElement("div");         
-          
-                    header.onclick = function () {                                 
+                    var header = document.createElement("div");
+
+                    header.onclick = function () {
                         //bit of a hack to get the full prompt which is stored in the alt text                      
                         var fullPrompt = this.parentElement.childNodes[0].alt;
                         var prompt = document.getElementById("prompt");
@@ -276,9 +320,9 @@
         function generate() {
             var prompt = document.getElementById("prompt").value;
             var container = document.getElementById("container");
-                    
+
             //empty container of all children
-            container.innerHTML = ""; 
+            container.innerHTML = "";
             if (prompt != undefined && prompt != "") {
                 console.log("Generating...");
                 //document.getElementById("installContainer").style = "display:block";          
@@ -325,10 +369,10 @@
 
                     link.download = `${prompt}-${i}.png`;
                     link.target = "_blank";
-                    col.appendChild(link);                                          
-                                       
+                    col.appendChild(link);
+
                     container.appendChild(col);
-                    
+
                     prompt.value = undefined;
                 }
             }
@@ -386,4 +430,5 @@
             console.log("Service worker not configured properly");
         }
     </script>
+
 </html>
