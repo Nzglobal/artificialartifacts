@@ -273,6 +273,10 @@
 
         function generate() {
             var prompt = document.getElementById("prompt").value;
+            var container = document.getElementById("container");
+                    
+            //empty container of all children
+            container.innerHTML = ""; 
             if (prompt != undefined && prompt != "") {
                 console.log("Generating...");
                 //document.getElementById("installContainer").style = "display:block";          
@@ -319,17 +323,10 @@
 
                     link.download = `${prompt}-${i}.png`;
                     link.target = "_blank";
-                    col.appendChild(link);
-
-                    var container = document.getElementById("container");
-                    if (container.children?.length >= numberToGenerate) {
-                        //empty container of all children
-                        container.innerHTML = "";
-                        //container.prepend(col);
-                    }
-                    else {
-                        container.appendChild(col);
-                    }
+                    col.appendChild(link);                                          
+                                       
+                    container.appendChild(col);
+                    
                     prompt.value = undefined;
                 }
             }
