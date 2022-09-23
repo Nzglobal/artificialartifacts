@@ -241,6 +241,7 @@
                 var container = document.getElementById("inspiration");
                 container.innerHTML = "";
                 for (var i = 0; i < data.images.length; i++) {
+                    const link = document.createElement("a");                    
                     var column = document.createElement("div");
                     column.className = "column";
                     column.style = "width:50%;height:auto;";
@@ -250,6 +251,7 @@
                     img.src = data.images[i].src;
                     img.style = "height:auto;";
                     img.alt = data.images[i].prompt;
+                    link.href = data.images[i].src;
 
                     var header = document.createElement("div");
                     //header on click will copy the text to the clipboard
@@ -259,9 +261,10 @@
                         navigator.clipboard.writeText(this.textContent);
                         this.innerHTML = "&#x2705; - Copied to clipboard";
                     }
-                    header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}...`;
+                    header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}`;
                     header.style = "color:white;margin:10px;text-align:center;";
                     column.appendChild(img);
+                    column.appendChild(link);
                     column.appendChild(header);
                     container.appendChild(column);
                 }
