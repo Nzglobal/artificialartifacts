@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<title>&#127912 Artificial Artifacts</title>
+<title>&#127912 NZ Art App</title>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -9,11 +9,11 @@
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2b5876" />
 
     <meta name="description"
-        content="Artificial Artifacts - Use the power of Stable-Diffusion to generate mind blowing art from just a text description">
+        content="NZ Art App - Use the power of Stable-Diffusion to generate mind blowing art from just a text description">
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_NZ" />
     <meta property="og:url" content="https://nzart.app" />
-    <meta property="og:title" content="Artificial Artifacts" />
+    <meta property="og:title" content="NZ Art App" />
     <meta property="og:description" content="Generate Mind Blowing Art with the help of Artificial Intelligence." />
     <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
     <link rel="apple-touch-icon" sizes="180x180"
@@ -176,7 +176,7 @@
         }
 
         function fixUrl() {
-            window.history.pushState("https://nzart.app", "Artificial Artifacts", "/");
+            window.history.pushState("https://nzart.app", "NZ Art App", "/");
         }
 
         // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
@@ -203,7 +203,7 @@
             //updates the title of the webpage every second
             setInterval(function () {
                 var emojis = ["👨‍🎨", "👩‍🎨", "🖼️", "🎨", "🎭"];
-                document.title = emojis[Math.floor(Math.random() * emojis.length)] + " Artificial Artifacts";
+                document.title = emojis[Math.floor(Math.random() * emojis.length)] + " NZ Art App";
             }, 1000);
         }
 
@@ -297,7 +297,7 @@
                     loader.style = "width:fit-content;min-width:300px;"
 
                     img.onload = function () {
-                        document.title = "Artificial Artifacts";
+                        document.title = "NZ Art App";
                         loader.style = "display:none;width:0px;";
                         imagesLoaded++;
                     }
