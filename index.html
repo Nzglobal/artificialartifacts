@@ -237,7 +237,8 @@
         function share() {
             var prompt = document.getElementById("prompt").value;
             var id = savePrompt(prompt);  
-            setTimeout(resetState, 4000);
+            this.value = "Saving...";
+            setTimeout(resetState, 6000);
         }
 
         var shuffuleId = "";
