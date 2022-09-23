@@ -178,7 +178,8 @@
         }
 
         function fixUrl() {
-            window.history.pushState("https://nzart.app", "NZ Art App", "/");
+            //remove query params to not interfere with sharing again in the future
+            window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
         }
 
         // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
