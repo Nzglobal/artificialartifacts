@@ -318,7 +318,9 @@
 
                     var container = document.getElementById("container");
                     if (container.children?.length >= numberToGenerate) {
-                        container.prepend(col);
+                        //empty container of all children
+                        container.innerHTML = "";
+                        //container.prepend(col);
                     }
                     else {
                         container.appendChild(col);
