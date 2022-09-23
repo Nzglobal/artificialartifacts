@@ -199,7 +199,6 @@
 
         function fetchPrompt(id) {
             //downloads data from: https://nzartificialartifacts.azurewebsites.net/api/url-helper?id=id=1bbe7cdb-0c67-4a70-9df8-f5eca84a8efc&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw== and generates based off the PromptText in the JSON returned
-
             try {
                 var url = `https://nzart.app/api/url-helper?id=${id}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
                 apiFetch(url, function (response) {
@@ -224,7 +223,12 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var RowKey = JSON.parse(xhr.responseText).RowKey;
-                    console.log(`Saved RowKey: ${RowKey}`);
+                    console.log(`Saved RowKey: ${RowKey}`);               
+                    var url = window.location.href + `?id=${RowKey}`;
+                    // Copy the text inside the text field
+                    navigator.clipboard.writeText(url);
+                    var btnShare = document.getElementById("btnShare");   
+                    btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
                     return RowKey;
                 }
             };
@@ -232,13 +236,8 @@
 
         function share() {
             var prompt = document.getElementById("prompt").value;
-            var id = savePrompt(prompt);
-            var btnShare = document.getElementById("btnShare");
-            var url = window.location.href + `?id=${id}`;
-            // Copy the text inside the text field
-            navigator.clipboard.writeText(url);
-            btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
-            setTimeout(resetState, 2000);
+            var id = savePrompt(prompt);  
+            setTimeout(resetState, 4000);
         }
 
         var shuffuleId = "";
