@@ -127,7 +127,7 @@
         <button type="button" id="btnGenerate" onload="fixUrl()" onclick="generate()"
             style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#128259;
             Generate</button>
-        <button type="button" id="btnShare" onclick="share()"
+        <button type="button" id="btnShare" onclick="share(this)"
             style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy
             link to clipboard</button>
 
@@ -209,7 +209,7 @@
                 });
             }
             catch (e) {
-                Alert("Error fetching prompt - please try again");
+                console.log(e);
             }
         }
 
@@ -234,10 +234,10 @@
             };
         }
 
-        function share() {
+        function share(object) {
             var prompt = document.getElementById("prompt").value;
-            var id = savePrompt(prompt);  
-            this.value = "Saving...";
+            var id = savePrompt(prompt);      
+            object.innerHTML = "💾 Saving...";
             setTimeout(resetState, 6000);
         }
 
@@ -275,8 +275,7 @@
         function inspirationLoader(prompt) {
             var inspirationHeader = document.getElementById("inspirationHeader");
             inspirationHeader.style = "display:block;"
-            apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
-                console.log(data);
+            apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {       
                 //sort data based by the height attribute - high to low
                 data.images.sort(function (a, b) {
                     return a.height - b.height;
