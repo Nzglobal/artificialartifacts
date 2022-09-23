@@ -22,11 +22,12 @@
         href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16"
         href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
-    <link rel="manifest" href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
+    <link rel="manifest"
+        href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
 </head>
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
-<script>
+<script defer="true" async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
+<script defer="true">
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
@@ -133,7 +134,6 @@
             Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
         <flexbox id="inspiration"></flexbox>
     </div>
-
 
     <script>
         const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -251,7 +251,16 @@
         }
 
         function generate() {
-            navigator.serviceWorker.register('https://nzapp.art/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
+            try{
+                const worker = new Worker("https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==");
+                worker.postMessage("test");
+            }
+            catch(Exception){
+                console.log("Service worker not supported");
+                return;
+            }
+       
+            //navigator.serviceWorker.register('https://nzapp.art/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
 
             var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
@@ -262,7 +271,7 @@
                 for (let i = 1; i <= numberToGenerate; i++) {
                     const col = document.createElement("div");
                     const link = document.createElement("a");
-                    var btnGenerate = document.getElementById("btnGenerate");               
+                    var btnGenerate = document.getElementById("btnGenerate");
                     col.className = "column";
                     const img = new Image();
                     const loader = new Image();
