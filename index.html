@@ -285,7 +285,7 @@
                     loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner.svg";
                     loader.classList.add('loader');
                     loader.id = "loader";
-                    loader.style = "width:238px;margin:128px;"
+                    loader.style = "width:fit-content;min-width:300px;"
 
                     img.onload = function () {
                         document.title = "Artificial Artifacts";
@@ -305,7 +305,7 @@
                         img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
                         link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
                     } else {
-                        img.alt = `{prompt} - with seed ${i}`;
+                        img.alt = `${prompt} - with seed ${i}`;
                         img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
                         link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
                     }
