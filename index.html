@@ -259,7 +259,7 @@
                         navigator.clipboard.writeText(this.textContent);
                         this.innerHTML = "&#x2705; - Copied to clipboard";
                     }
-                    header.innerHTML = data.images[i].prompt;
+                    header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}...`;
                     header.style = "color:white;margin:10px;text-align:center;";
                     column.appendChild(img);
                     column.appendChild(header);
@@ -272,6 +272,8 @@
             var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
                 console.log("Generating...");
+                //document.getElementById("installContainer").style = "display:block";          
+
                 inspirationLoader(prompt);
                 shuffleTitle();
                 loadCheck();
@@ -381,8 +383,5 @@
         catch (Exception) {
             console.log("Service worker not configured properly");
         }
-
-
     </script>
-
 </html>
