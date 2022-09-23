@@ -136,7 +136,6 @@
     </div>
     <flexbox id="container" onload="fixUrl();"></flexbox>
 
-
     <div id="inspirationHeader"
         style="background: linear-gradient(to top, #4e4376, #2b5876);padding:1%;align-items: center;display:none;">
         <h1 style="color:white;">Inspiration</h1>
@@ -174,8 +173,8 @@
         });
 
         function resetState() {
-            var share = document.getElementById("btnShare");
-            share.innerHTML = "&#x1F517;Copy link to clipboard";
+            var share = document.getElementById("btnShare");            
+            share.innerHTML = "&#x1F517; Create sharable link";
         }
 
         function fixUrl() {
@@ -189,11 +188,13 @@
             console.log(`prompt:${queryPrompt}-seed:${seed}`);
             var input = document.getElementById("prompt");
             input.value = queryPrompt;
+            fixUrl();
             generate();
         }
         let id = params.id;
         if (id != undefined && id.length == 36) {
             console.log(`id:${id}`);
+            fixUrl();
             fetchPrompt(id);
         }
 
@@ -224,9 +225,9 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var RowKey = JSON.parse(xhr.responseText).RowKey;
                     console.log(`Saved RowKey: ${RowKey}`);               
-                    var url = window.location.href + `?id=${RowKey}`;
+                    let shareableUrl = window.location.href + `?id=${RowKey}`;
                     // Copy the text inside the text field
-                    navigator.clipboard.writeText(url);
+                    navigator.clipboard.writeText(shareableUrl);
                     var btnShare = document.getElementById("btnShare");   
                     btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
                     return RowKey;
@@ -238,7 +239,7 @@
             var prompt = document.getElementById("prompt").value;
             var id = savePrompt(prompt);      
             object.innerHTML = "💾 Saving...";
-            setTimeout(resetState, 6000);
+            setTimeout(resetState, 4000);
         }
 
         var shuffuleId = "";
