@@ -9,7 +9,7 @@
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2b5876" />
 
     <meta name="description"
-        content="NZ Art App - Use the power of Stable-Diffusion to generate mind blowing art from just a text description">
+        content="NZ Art App - Use the power of Stable-Diffusion to create mind blowing art from just a text description">
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_NZ" />
     <meta property="og:url" content="https://nzart.app" />
@@ -124,9 +124,8 @@
         <input title="prompt input"
             placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
             label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" autocomplete="off" />
-        <button type="button" id="btnGenerate" onload="fixUrl()" onclick="generate()"
-            style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#128259;
-            Generate</button>
+        <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
+            style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨 Create Art</button>
         <button type="button" id="btnShare" onclick="share(this)"
             style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy
             link to clipboard</button>
@@ -160,15 +159,15 @@
         });
 
         let imagesLoaded = 0;
-        let numberToGenerate = 6;
+        let numberToCreate = 6;
         if (params.iteration != undefined) {
-            numberToGenerate = params.iteration;
+            numberToCreate = params.iteration;
         }
 
         var input = document.getElementById("prompt");
         input.addEventListener("keydown", function (e) {
             if (e.code === "Enter" || e.code === 13) {
-                generate();
+                create();
             }
         });
 
@@ -179,7 +178,11 @@
 
         function fixUrl() {
             //remove query params to not interfere with sharing again in the future
+            try{
             window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
+            }catch(e){
+                //do nothing - likely running locally
+            }
         }
 
         // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
@@ -190,7 +193,7 @@
             var input = document.getElementById("prompt");
             input.value = queryPrompt;
             fixUrl();
-            generate();
+            create();
         }
         let id = params.id;
         if (id != undefined && id.length == 36) {
@@ -200,14 +203,14 @@
         }
 
         function fetchPrompt(id) {
-            //downloads data from: https://nzartificialartifacts.azurewebsites.net/api/url-helper?id=id=1bbe7cdb-0c67-4a70-9df8-f5eca84a8efc&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw== and generates based off the PromptText in the JSON returned
+            //downloads data from: https://nzartificialartifacts.azurewebsites.net/api/url-helper?id=id=1bbe7cdb-0c67-4a70-9df8-f5eca84a8efc&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw== and creates based off the PromptText in the JSON returned
             try {
                 var url = `https://nzart.app/api/url-helper?id=${id}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
                 apiFetch(url, function (response) {
                     console.log(response);
                     var input = document.getElementById("prompt");
                     input.value = response.PromptText;
-                    generate();
+                    create();
                 });
             }
             catch (e) {
@@ -252,15 +255,15 @@
             }, 1000);
         }
 
-        //function to check every 500ms whether imagesLoaded is equal to numberToGenerate
+        //function to check every 500ms whether imagesLoaded is equal to numberToCreate
         function loadCheck() {
             setInterval(function () {
-                if (imagesLoaded == numberToGenerate) {
+                if (imagesLoaded == numberToCreate) {
                     imagesLoaded = 0;
                     console.log("All image requests finished");
-                    var btnGenerate = document.getElementById("btnGenerate")
-                    btnGenerate.innerHTML = "&#128259; Generate";
-                    btnGenerate.disabled = false;
+                    var btnCreate = document.getElementById("btnCreate")
+                    btnCreate.innerHTML = "🎨 Create Art";
+                    btnCreate.disabled = false;
                     if (shuffuleId != "") {
                         clearInterval(shuffleId);
                     }
@@ -318,23 +321,23 @@
             });
         }
 
-        function generate() {
+        function create() {
             var prompt = document.getElementById("prompt").value;
             var container = document.getElementById("container");
 
             //empty container of all children
             container.innerHTML = "";
             if (prompt != undefined && prompt != "") {
-                console.log("Generating...");
+                console.log("Creating...");
                 //document.getElementById("installContainer").style = "display:block";          
 
                 inspirationLoader(prompt);
                 shuffleTitle();
                 loadCheck();
-                for (let i = 1; i <= numberToGenerate; i++) {
+                for (let i = 1; i <= numberToCreate; i++) {
                     const col = document.createElement("div");
                     const link = document.createElement("a");
-                    var btnGenerate = document.getElementById("btnGenerate");
+                    var btnCreate = document.getElementById("btnCreate");
                     col.className = "column";
                     const img = new Image();
                     const loader = new Image();
@@ -354,8 +357,8 @@
                         document.title = "Arificial Artifacts"
                         imagesLoaded++;
                     };
-                    btnGenerate.innerHTML = "&#x1F914; - Generating...";
-                    document.title = "Generating...";
+                    btnCreate.innerHTML = "&#x1F914; - Creating...";
+                    document.title = "Creating...";
                     //provided ?test = true will use a test image
                     if (params.test != undefined) {
                         img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
