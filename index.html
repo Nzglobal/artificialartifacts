@@ -4,8 +4,12 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link rel=“canonical” href=“https://nzart.app/api/generator” />
-    <meta name="description" content="Artificial Artifacts - Use the power of Stable-Diffusion to generate mind blowing art from just a text description" >
+    <link rel="canonical" href="https://nzart.app/api/generator" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#2b5876" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#4e4376" />
+
+    <meta name="description"
+        content="Artificial Artifacts - Use the power of Stable-Diffusion to generate mind blowing art from just a text description">
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_NZ" />
     <meta property="og:url" content="https://nzart.app" />
@@ -124,7 +128,8 @@
     <div id="inspirationHeader"
         style="background: linear-gradient(to top, #4e4376, #2b5876);padding:1%;align-items: center;display:none;">
         <h1 style="color:white;">Inspiration</h1>
-        <p style="color:white;">Here are some prompts that others have used - Click the prompt text to copy into the generator prompt box.
+        <p style="color:white;">Here are some prompts that others have used - Click the prompt text to copy into the
+            generator prompt box.
             Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
         <flexbox id="inspiration"></flexbox>
     </div>
@@ -205,9 +210,9 @@
                 .then(data => callback(data));
         }
 
-        function inspirationLoader(prompt){            
+        function inspirationLoader(prompt) {
             var inspirationHeader = document.getElementById("inspirationHeader");
-            inspirationHeader.style = "display:block;"       
+            inspirationHeader.style = "display:block;"
             apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
                 console.log(data);
                 //sort data based by the height attribute
@@ -226,6 +231,7 @@
                     img.setAttribute("loading", "lazy");
                     img.src = data.images[i].src;
                     img.style = "height:auto;";
+                    img.alt = data.images[i].prompt;
 
                     var header = document.createElement("div");
                     //header on click will copy the text to the clipboard
@@ -244,11 +250,11 @@
             });
         }
 
-        function generate() {        
+        function generate() {
             var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
                 console.log("Generating...");
-                inspirationLoader(prompt);            
+                inspirationLoader(prompt);
                 shuffleTitle();
                 loadCheck();
                 for (let i = 1; i <= numberToGenerate; i++) {
@@ -282,6 +288,7 @@
                         img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
                         link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
                     } else {
+                        img.alt = `{prompt} - with seed ${i}`;
                         img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
                         link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
                     }
@@ -304,4 +311,5 @@
             }
         }        
     </script>
+
 </html>
