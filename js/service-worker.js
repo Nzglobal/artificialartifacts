@@ -20,8 +20,14 @@ const RUNTIME = 'runtime';
 // A list of local resources we always want to be cached.
 const PRECACHE_URLS = [
   'index.html',
+	'/api/generator',
   './'// Alias for index.html  
 ];
+
+self.onmessage = function(message){
+	console.log(`ServiceWorker - :${message.data}`);
+	self.postMessage(`Returning: ${message.data}`);
+}
 
 // The install handler takes care of precaching the resources we always need.
 self.addEventListener('install', event => {

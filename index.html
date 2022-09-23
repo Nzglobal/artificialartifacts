@@ -107,6 +107,21 @@
     .loader {
         box-shadow: none !important;
     }
+    #installContainer {
+        position: absolute;
+        bottom: 1em;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    #installContainer button {
+        background-color: inherit;
+        border: 1px solid white;
+        color: 2b5876;
+        font-size: 1em;
+        padding: 0.75em;
+    }
 </style>
 
 <div id="content">
@@ -134,8 +149,15 @@
             Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
         <flexbox id="inspiration"></flexbox>
     </div>
+    <!-- Install button, hidden by default -->
+    <div id="installContainer" class="hidden">
+        <button id="butInstall" type="button">
+          Install
+    </button>
 
-    <script>
+    <script defer>
+        const divInstall = document.getElementById('installContainer');
+        const butInstall = document.getElementById('butInstall');
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         });
@@ -198,7 +220,7 @@
                     console.log("All image requests finished");
                     var btnGenerate = document.getElementById("btnGenerate")
                     btnGenerate.innerHTML = "&#128259; Generate";
-                    btnGenerate.disabled = false;            
+                    btnGenerate.disabled = false;
                     clearInterval(shuffleTitle);
                 }
             }, 500);
@@ -250,20 +272,23 @@
                 }
             });
         }
-        
 
         function generate() {
-            try{
-                const worker = new Worker("https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==");
-                //navigator.serviceWorker.register('https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
+            try {
+                //const worker = new Worker("https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==");
+                /* Only register a service worker if it's supported */
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
+                }                
+  
                 worker.postMessage("send message to worker");
-                worker.onmessage = function (message){
+                worker.onmessage = function (message) {
                     console.log(`recieved:${message.data} from worker`);
                 }
             }
-            catch(Exception){
-                console.log("Service worker not configured properly");             
-            }     
+            catch (Exception) {
+                console.log("Service worker not configured properly");
+            }
 
             var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
@@ -322,7 +347,36 @@
                     prompt.value = undefined;
                 }
             }
-        }        
+        }
+
+        /*SERVICE_WORKER*/
+        // Initialize deferredPrompt for use later to show browser install prompt.
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            showInstallPromotion();
+            // Optionally, send analytics event that PWA install promo was shown.
+            console.log(`'beforeinstallprompt' event was fired.`);
+        });
+
+        buttonInstall.addEventListener('click', async () => {
+            // Hide the app provided install promotion
+            hideInstallPromotion();
+            // Show the install prompt
+            deferredPrompt.prompt();
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            // Optionally, send analytics event with outcome of user choice
+            console.log(`User response to the install prompt: ${outcome}`);
+            // We've used the prompt, and can't use it again, throw it away
+            deferredPrompt = null;
+        });
+
     </script>
 
 </html>
