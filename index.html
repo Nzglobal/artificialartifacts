@@ -165,7 +165,7 @@
 
         var input = document.getElementById("prompt");
         input.addEventListener("keydown", function (e) {
-            if (e.code === "Enter") {
+            if (e.code === "Enter" || e.code === 13) {
                 generate();
             }
         });
