@@ -233,7 +233,7 @@
             inspirationHeader.style = "display:block;"
             apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
                 console.log(data);
-                //sort data based by the height attribute
+                //sort data based by the height attribute - high to low
                 data.images.sort(function (a, b) {
                     return a.height - b.height;
                 }).reverse();
@@ -253,12 +253,14 @@
                     img.alt = data.images[i].prompt;
                     link.href = data.images[i].src;
 
-                    var header = document.createElement("div");
-                    //header on click will copy the text to the clipboard
-                    header.onclick = function () {
+                    var header = document.createElement("div");         
+          
+                    header.onclick = function () {                                 
+                        //bit of a hack to get the full prompt which is stored in the alt text                      
+                        var fullPrompt = this.parentElement.childNodes[0].alt;
                         var prompt = document.getElementById("prompt");
-                        prompt.value = this.textContent;
-                        navigator.clipboard.writeText(this.textContent);
+                        prompt.value = fullPrompt;
+                        navigator.clipboard.writeText(fullPrompt);
                         this.innerHTML = "&#x2705; - Copied to clipboard";
                     }
                     header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}`;
