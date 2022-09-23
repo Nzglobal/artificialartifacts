@@ -27,13 +27,7 @@
 </head>
 <!-- Google tag (gtag.js) -->
 <script defer="true" async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
-<script defer="true">
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-2QSZV6W319');
-</script>
+<script defer="true">window.dataLayer = window.dataLayer || [];function gtag() { dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'G-2QSZV6W319');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     /*Helpful in terms of calculating sizes*/
@@ -47,8 +41,7 @@
         padding: 10px;
     }
 
-    .column img {
-        margin-top: 12px;
+    .column img {       
         width: 100%;
     }
 
@@ -250,7 +243,7 @@
                 for (var i = 0; i < data.images.length; i++) {
                     var column = document.createElement("div");
                     column.className = "column";
-                    column.style = "width:25%;height:auto;margin:10px";
+                    column.style = "width:50%;height:auto;";
 
                     var img = document.createElement("img");
                     img.setAttribute("loading", "lazy");
@@ -372,7 +365,7 @@
             window.deferredPrompt = null;
         });
 
-        try {      
+        try {
             /* Only register a service worker if it's supported */
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');

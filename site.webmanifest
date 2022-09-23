@@ -1,18 +1,24 @@
 {
 	"background_color": "#4e4376",
-	"start_url":"/api/generator",
+	"start_url":"https://nzart.app/api/generator",
 	"theme_color": "#2b5876",
 	"display": "standalone",
 	"icons": [
 		{
 			"sizes": "192x192",
-			"src": "/android-chrome-192x192.png",
+			"src": "https://nzart.app/api/read?resource=android-chrome-192x192.png&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==",
+			"type": "image/png",
+			"purpose":"any"
+		},
+		{
+			"sizes": "192x192",
+			"src": "https://nzart.app/api/read?resource=android-chrome-192x192.png&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==",
 			"type": "image/png",
 			"purpose":"maskable"
 		},
 		{
 			"sizes": "512x512",
-			"src": "/android-chrome-512x512.png",
+			"src": "https://nzart.app/api/read?resource=android-chrome-512x512.png&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==",
 			"type": "image/png",
 			"purpose":"maskable"
 		}
