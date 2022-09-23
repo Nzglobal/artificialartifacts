@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link rel="canonical" href="https://nzart.app/api/generator" />
     <meta name="theme-color" media="(prefers-color-scheme: light)" content="#2b5876" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#4e4376" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2b5876" />
 
     <meta name="description"
         content="Artificial Artifacts - Use the power of Stable-Diffusion to generate mind blowing art from just a text description">
@@ -22,7 +22,7 @@
         href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16"
         href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
-    <link rel="manifest" href="https://nzart.app/api/manifest">
+    <link rel="manifest" href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
@@ -251,6 +251,8 @@
         }
 
         function generate() {
+            //navigator.serviceWorker.register('https://artificialartifacts9b50.blob.core.windows.net/www/servicewo-rker.js');
+
             var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
                 console.log("Generating...");
