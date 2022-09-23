@@ -276,22 +276,6 @@
         }
 
         function generate() {
-            try {
-                //const worker = new Worker("https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==");
-                /* Only register a service worker if it's supported */
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register('https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
-                }
-
-                worker.postMessage("send message to worker");
-                worker.onmessage = function (message) {
-                    console.log(`recieved:${message.data} from worker`);
-                }
-            }
-            catch (Exception) {
-                console.log("Service worker not configured properly");
-            }
-
             var prompt = document.getElementById("prompt").value;
             if (prompt != undefined && prompt != "") {
                 console.log("Generating...");
@@ -351,7 +335,23 @@
             }
         }
 
-        /*SERVICE_WORKER*/
+        try {
+            //const worker = new Worker("https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==");
+            /* Only register a service worker if it's supported */
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
+            }
+
+            worker.postMessage("send message to worker");
+            worker.onmessage = function (message) {
+                console.log(`recieved:${message.data} from worker`);
+            }
+        }
+        catch (Exception) {
+            console.log("Service worker not configured properly");
+        }
+
+        /*SERVICE_WORKER - Docs: https://web.dev/codelab-make-installable/*/
         // Initialize deferredPrompt for use later to show browser install prompt.
         window.addEventListener('beforeinstallprompt', (event) => {
             // Prevent the mini-infobar from appearing on mobile.
