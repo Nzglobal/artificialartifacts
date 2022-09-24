@@ -123,14 +123,14 @@
     <div class="userinput" style="padding:1%;align-items: center;">
         <textarea title="prompt input"
             placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
-            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off">
-            </textarea>
+            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off" ></textarea>    
         
         <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
-            style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨 Create Art</button>
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨 Create Art</button>
         <button type="button" id="btnShare" onclick="share(this)"
-            style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy
             link to clipboard</button>
+        <button type="button" style="padding:6px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;" onclick="reset()">Clear</button>
 
         <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
@@ -181,7 +181,8 @@
         function fixUrl() {
             //remove query params to not interfere with sharing again in the future
             try{
-            window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
+                reset();
+                window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
             }catch(e){
                 //do nothing - likely running locally
             }
@@ -321,6 +322,11 @@
                     container.appendChild(column);
                 }
             });
+        }
+
+        function reset(){
+            var prompt = document.getElementById("prompt");
+            prompt.value = "";
         }
 
         function create() {
