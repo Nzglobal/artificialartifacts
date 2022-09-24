@@ -235,15 +235,14 @@
                     // Copy the text inside the text field
                     navigator.clipboard.writeText(shareableUrl);
                     var btnShare = document.getElementById("btnShare");   
-                    btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
-                    return RowKey;
+                    btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";                   
                 }
             };
         }
 
         function share(object) {
             var prompt = document.getElementById("prompt").value;
-            var id = savePrompt(prompt);      
+            savePrompt(prompt);      
             object.innerHTML = "💾 Saving...";
             setTimeout(resetState, 4000);
         }
@@ -313,7 +312,7 @@
                         navigator.clipboard.writeText(fullPrompt);
                         this.innerHTML = "&#x2705; - Copied to clipboard";
                     }
-                    header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}`;
+                    header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}...`;
                     header.style = "color:white;margin:10px;text-align:center;";
                     column.appendChild(img);
                     column.appendChild(link);
