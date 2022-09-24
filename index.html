@@ -121,9 +121,11 @@
 
 <div id="content">
     <div class="userinput" style="padding:1%;align-items: center;">
-        <input title="prompt input"
+        <textarea title="prompt input"
             placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
-            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" autocomplete="off" />
+            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off">
+            </textarea>
+        
         <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
             style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨 Create Art</button>
         <button type="button" id="btnShare" onclick="share(this)"
