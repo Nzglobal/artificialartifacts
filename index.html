@@ -280,7 +280,7 @@
 
         function inspirationLoader(prompt) {
             var inspirationHeader = document.getElementById("inspirationHeader");
-            inspirationHeader.style = "display:block;"
+            inspirationHeader.style = "display:inline;"
             apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {       
                 //sort data based by the height attribute - high to low
                 data.images.sort(function (a, b) {
@@ -310,6 +310,7 @@
                         var prompt = document.getElementById("prompt");
                         prompt.value = fullPrompt;
                         navigator.clipboard.writeText(fullPrompt);
+                        prompt.focus();
                         this.innerHTML = "&#x2705; - Copied to clipboard";
                     }
                     header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}...`;
