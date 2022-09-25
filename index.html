@@ -261,6 +261,7 @@
         //function to check every 500ms whether imagesLoaded is equal to numberToCreate
         function loadCheck() {
             setInterval(function () {
+                console.log(`Images Loaded:${imagesLoaded}/${numberToCreate}`);
                 if (imagesLoaded == numberToCreate) {
                     imagesLoaded = 0;
                     console.log("All image requests finished");
