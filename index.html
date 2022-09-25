@@ -25,8 +25,10 @@
     <link rel="manifest"
         href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
 </head>
-<!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) and ads -->
 <script defer="true" async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
+<script defer="true" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7996261445365362"
+     crossorigin="anonymous"></script>
 <script
     defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -397,7 +399,7 @@
                     }
                     else {
                         img.alt = `${prompt} - with seed ${seed}`;
-                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}&generate=true`;
+                        img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}&generate=true`;
                         link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}&generate=false`;
                     }
                     link.appendChild(loader);
