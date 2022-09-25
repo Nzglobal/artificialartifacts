@@ -262,9 +262,8 @@
                 if (imagesLoaded == numberToCreate) {
                     imagesLoaded = 0;
                     console.log("All image requests finished");
-                    var btnCreate = document.getElementById("btnCreate")
-                    btnCreate.innerHTML = "🎨 Create Art";
-                    btnCreate.disabled = false;
+                    var btnCreate = document.getElementById("btnCreate");
+                    btnCreate.innerHTML = "🎨 Create Art";                
                     if (shuffuleId != "") {
                         clearInterval(shuffleId);
                     }
@@ -342,7 +341,7 @@
                 //document.getElementById("installContainer").style = "display:block";          
 
                 inspirationLoader(prompt);
-                shuffleTitle();
+                //shuffleTitle();
                 loadCheck();
                 for (let i = 1; i <= numberToCreate; i++) {
                     const col = document.createElement("div");
