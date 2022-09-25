@@ -120,7 +120,7 @@
 </style>
 
 <div id="content">
-    <div class="userinput" style="padding:1%;align-items: center;">
+    <div class="userinput" style="padding:1%;align-items: center;color:white;">
         <textarea title="prompt input"
             placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
             label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off" ></textarea>    
@@ -130,7 +130,7 @@
         <button type="button" id="btnShare" onclick="share(this)"
             style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Share link</button>
         <button type="button" style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;" onclick="reset()">❎ Clear</button>
-
+        <input type="checkbox" id="chaos" style="color:white;padding: 4px;">Generate new outputs from the same prompt</checkbox>
         <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
     </div>
@@ -212,7 +212,8 @@
                     console.log(response);
                     var input = document.getElementById("prompt");
                     input.value = response.PromptText;
-                    create();
+                    var seedsToUse = response.Seeds.split(',');
+                    create(seedsToUse);
                 });
             }
             catch (e) {
@@ -220,8 +221,9 @@
             }
         }
 
+        let seeds = [];
         function savePrompt(prompt) {
-            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seeds}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -330,22 +332,25 @@
             document.getElementById("inspirationHeader").style = "display:none;";
         }
 
-        function create() {
+        function create(seedsToUse) {
             var prompt = document.getElementById("prompt").value;
             var container = document.getElementById("container");
+            seeds = [];
 
             //empty container of all children
             container.innerHTML = "";
             if (prompt != undefined && prompt != "") {
                 console.log("Creating...");
-                //document.getElementById("installContainer").style = "display:block";          
-
+                //document.getElementById("installContainer").style = "display:block";        
+           
                 inspirationLoader(prompt);
                 //shuffleTitle();
-                loadCheck();
+                loadCheck();            
+
                 for (let i = 1; i <= numberToCreate; i++) {
                     const col = document.createElement("div");
                     const link = document.createElement("a");
+                    var seed = i;
                     var btnCreate = document.getElementById("btnCreate");
                     col.className = "column";
                     const img = new Image();
@@ -368,14 +373,30 @@
                     };
                     btnCreate.innerHTML = "&#x1F914; - Creating...";
                     document.title = "Creating...";
+
+                    //get whether chaos element is checked
+                    var chaos = document.getElementById("chaos").checked;
+                    if(chaos){
+                        //overwrite i with random number
+                        seed = Math.floor(Math.random() * 1000000);       
+                    }
+
+                    seeds.push(seed);
+
                     //provided ?test = true will use a test image
-                    if (params.test != undefined) {
+                    if (seedsToUse != undefined) {
+                        img.alt = `${prompt} - with seed ${seedsToUse[i -1]}`;
+                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seedsToUse[i -1]}&generate=false`;
+                        seeds.push(seedsToUse[i -1]);
+                    }
+                    else if (params.test != undefined) {
                         img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
-                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
-                    } else {
-                        img.alt = `${prompt} - with seed ${i}`;
-                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=true`;
-                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${i}&generate=false`;
+                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}&generate=false`;
+                    }
+                    else {
+                        img.alt = `${prompt} - with seed ${seed}`;
+                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}&generate=true`;
+                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}&generate=false`;
                     }
                     link.appendChild(loader);
                     link.appendChild(img)
