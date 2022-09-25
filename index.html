@@ -262,7 +262,7 @@
         function loadCheck() {
             setInterval(function () {
                 console.log(`Images Loaded:${imagesLoaded}/${numberToCreate}`);
-                if (imagesLoaded == numberToCreate) {
+                if (imagesLoaded >= numberToCreate) {
                     imagesLoaded = 0;
                     console.log("All image requests finished");
                     var btnCreate = document.getElementById("btnCreate");
@@ -365,13 +365,13 @@
                     img.onload = function () {
                         document.title = "NZ Art App";
                         loader.style = "display:none;width:0px;";
-                        imagesLoaded++;
+                        imagesLoaded + 1;
                     }
                     img.onerror = function () {
                         img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
                         img.style = "width:512px;";
                         document.title = "Arificial Artifacts"
-                        imagesLoaded++;
+                        imagesLoaded + 1;
                     };
                     btnCreate.innerHTML = "&#x1F914; - Creating...";
                     document.title = "Creating...";
