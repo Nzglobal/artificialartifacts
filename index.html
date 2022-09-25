@@ -231,7 +231,7 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var RowKey = JSON.parse(xhr.responseText).RowKey;
                     console.log(`Saved RowKey: ${RowKey}`);               
-                    let shareableUrl = window.location.href + `?id=${RowKey}`;
+                    let shareableUrl = `https://nzart.app/api/generator?id=${RowKey}`;
                     // Copy the text inside the text field
                     navigator.clipboard.writeText(shareableUrl);
                     var btnShare = document.getElementById("btnShare");   
