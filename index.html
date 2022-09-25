@@ -152,7 +152,8 @@
         </button>
     </div>
 
-    <script defer>
+    <script defer>        
+        let seeds = [];
         const divInstall = document.getElementById('installContainer');
         const butInstall = document.getElementById('butInstall');
         const params = new Proxy(new URLSearchParams(window.location.search), {
@@ -221,7 +222,6 @@
             }
         }
 
-        let seeds = [];
         function savePrompt(prompt) {
             var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seeds}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
             var xhr = new XMLHttpRequest();
