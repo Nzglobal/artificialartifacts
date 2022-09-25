@@ -365,13 +365,13 @@
                     img.onload = function () {
                         document.title = "NZ Art App";
                         loader.style = "display:none;width:0px;";
-                        imagesLoaded + 1;
+                        imagesLoaded++;
                     }
                     img.onerror = function () {
                         img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
                         img.style = "width:512px;";
                         document.title = "Arificial Artifacts"
-                        imagesLoaded + 1;
+                        imagesLoaded++;
                     };
                     btnCreate.innerHTML = "&#x1F914; - Creating...";
                     document.title = "Creating...";
