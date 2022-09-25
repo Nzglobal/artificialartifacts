@@ -261,7 +261,8 @@
         //function to check every 500ms whether imagesLoaded is equal to numberToCreate
         function loadCheck() {
             setInterval(function () {
-                if (imagesLoaded == numberToCreate) {
+                console.log(`Images Loaded:${imagesLoaded}/${numberToCreate}`);
+                if (imagesLoaded >= numberToCreate) {
                     imagesLoaded = 0;
                     console.log("All image requests finished");
                     var btnCreate = document.getElementById("btnCreate");
@@ -327,6 +328,7 @@
         function reset(){
             var prompt = document.getElementById("prompt");
             prompt.value = "";
+            document.getElementById("btnCreate").btnCreate.innerHTML = "🎨 Create Art";  
             document.getElementById("container").innerHTML = "";
             document.getElementById("inspiration").innerHTML = "";
             document.getElementById("inspirationHeader").style = "display:none;";
