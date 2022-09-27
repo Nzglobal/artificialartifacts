@@ -148,7 +148,6 @@
     }
     button{
         font-family: 'Roboto', sans-serif;
-        align-content: center;
         font-size:x-large;
         border-radius: 4px;
     }
@@ -160,7 +159,7 @@
         font-family: 'Roboto', sans-serif;
     }
     .inspirationheader{
-        background: linear-gradient(to top, #4e4376, #2b5876);padding:1%;align-items: center;display:none;
+        background: linear-gradient(to top, #4e4376, #2b5876);padding:0px;align-items: center;display:none;
         font-family: 'Roboto', sans-serif;
     }
     .inspirationheader > h1{
@@ -184,7 +183,7 @@
             style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
             Create Art</button>
         <button type="button" id="btnShare" onclick="share(this)"
-            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Share
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517; Share
             link</button>
         <button type="button"
             style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
@@ -397,7 +396,7 @@
         function create(seedsToUse) {
             var prompt = document.getElementById("prompt").value;
             var container = document.getElementById("container");
-            var userinput = document.getElementById("userinput").style = "position:relative;transform:translateY(0%);transition: transform .3s ease-out;";
+            var userinput = document.getElementById("userinput").style = "padding:5px;position:relative;transform:translateY(0%);transition: transform .3s ease-out;";
             seeds = [];
 
             //empty container of all children
