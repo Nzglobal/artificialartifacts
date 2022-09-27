@@ -14,7 +14,8 @@
     <meta property="og:locale" content="en_NZ" />
     <meta property="og:url" content="https://nzart.app" />
     <meta property="og:title" content="NZ Art App" />
-    <meta property="og:description" content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
+    <meta property="og:description"
+        content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
     <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
     <link rel="apple-touch-icon" sizes="180x180"
         href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
@@ -27,12 +28,17 @@
 </head>
 <!-- Google tag (gtag.js) and ads -->
 <script defer="true" async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
-<script defer="true" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7996261445365362"
-     crossorigin="anonymous"></script>
+<script defer="true" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7996261445365362"
+    crossorigin="anonymous"></script>
 <script
     defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+    html {
+        height: auto;        
+    }
+
     /*Helpful in terms of calculating sizes*/
     * {
         box-sizing: border-box;
@@ -66,11 +72,13 @@
         font-family: Arial;
         overflow: scroll;
         max-width: 1088px;
-        min-height: 2160px;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
         margin: auto;
         padding: 10px;
         overflow: scroll;
-        background: linear-gradient(to top, #4e4376, #2b5876);
+        background: linear-gradient(to top, #4e4376, #2b5876)fixed;
         overflow-x: hidden;
         /*
             background image would cover entire page, but blur would only affect content in vertical strip
@@ -119,20 +127,43 @@
         font-size: 1em;
         padding: 0.75em;
     }
+
+    #userinput {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);     
+        color:white;
+        font-size: large;
+    }
+    button{
+        font-size:x-large;
+    }
+    #prompt{
+        font-size:x-large;
+    }   
+
 </style>
 
 <div id="content">
-    <div class="userinput" style="padding:1%;align-items: center;color:white;">
+    <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large">
         <textarea title="prompt input"
             placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
-            label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off" ></textarea>    
-        
+            label="Enter what you want to see" id="prompt"
+            style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off"></textarea>
+
         <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
-            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨 Create Art</button>
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
+            Create Art</button>
         <button type="button" id="btnShare" onclick="share(this)"
-            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Share link</button>
-        <button type="button" style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;" onclick="reset()">❎ Clear</button>
-        <input type="checkbox" id="chaos" style="color:white;padding: 4px;">Generate new outputs from the same prompt</checkbox>
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Share
+            link</button>
+        <button type="button"
+            style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
+            onclick="reset()">❎ Clear</button>
+        <input type="checkbox" id="chaos" style="color:white;padding: 4px;">Generate new outputs from the same prompt
+        </checkbox>
         <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
     </div>
@@ -154,7 +185,7 @@
         </button>
     </div>
 
-    <script defer>        
+    <script defer>
         let seeds = [];
         const divInstall = document.getElementById('installContainer');
         const butInstall = document.getElementById('butInstall');
@@ -176,16 +207,16 @@
         });
 
         function resetState() {
-            var share = document.getElementById("btnShare");            
-            share.innerHTML = "&#x1F517; Create sharable link";
+            var share = document.getElementById("btnShare");
+            share.innerHTML = "&#x1F517; Share link";
         }
 
         function fixUrl() {
             //remove query params to not interfere with sharing again in the future
-            try{
+            try {
                 reset();
                 window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
-            }catch(e){
+            } catch (e) {
                 //do nothing - likely running locally
             }
         }
@@ -234,19 +265,19 @@
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var RowKey = JSON.parse(xhr.responseText).RowKey;
-                    console.log(`Saved RowKey: ${RowKey}`);               
+                    console.log(`Saved RowKey: ${RowKey}`);
                     let shareableUrl = `https://nzart.app/api/generator?id=${RowKey}`;
                     // Copy the text inside the text field
                     navigator.clipboard.writeText(shareableUrl);
-                    var btnShare = document.getElementById("btnShare");   
-                    btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";                   
+                    var btnShare = document.getElementById("btnShare");
+                    btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
                 }
             };
         }
 
         function share(object) {
             var prompt = document.getElementById("prompt").value;
-            savePrompt(prompt);      
+            savePrompt(prompt);
             object.innerHTML = "💾 Saving...";
             setTimeout(resetState, 4000);
         }
@@ -268,7 +299,7 @@
                     imagesLoaded = 0;
                     console.log("All image requests finished");
                     var btnCreate = document.getElementById("btnCreate");
-                    btnCreate.innerHTML = "🎨 Create Art";                
+                    btnCreate.innerHTML = "🎨 Create Art";
                     if (shuffuleId != "") {
                         clearInterval(shuffleId);
                     }
@@ -285,7 +316,7 @@
         function inspirationLoader(prompt) {
             var inspirationHeader = document.getElementById("inspirationHeader");
             inspirationHeader.style = "display:inline;"
-            apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {       
+            apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
                 //sort data based by the height attribute - high to low
                 data.images.sort(function (a, b) {
                     return a.height - b.height;
@@ -327,18 +358,20 @@
             });
         }
 
-        function reset(){
+        function reset() {
             var prompt = document.getElementById("prompt");
             prompt.value = "";
-            document.getElementById("btnCreate").btnCreate.innerHTML = "🎨 Create Art";  
+            document.getElementById("btnCreate").innerHTML = "🎨 Create Art";
             document.getElementById("container").innerHTML = "";
             document.getElementById("inspiration").innerHTML = "";
             document.getElementById("inspirationHeader").style = "display:none;";
+            document.getElementById("userinput").style="margin: 0;position: absolute;top: 50%;-ms-transform: translateY(-50%);transform: translateY(-50%);color:white;font-size:large;transition: transform .3s ease-out;"
         }
 
         function create(seedsToUse) {
             var prompt = document.getElementById("prompt").value;
             var container = document.getElementById("container");
+            var userinput = document.getElementById("userinput").style = "position:relative;transform:translateY(0%);transition: transform .3s ease-out;";
             seeds = [];
 
             //empty container of all children
@@ -346,10 +379,10 @@
             if (prompt != undefined && prompt != "") {
                 console.log("Creating...");
                 //document.getElementById("installContainer").style = "display:block";        
-           
+
                 inspirationLoader(prompt);
                 //shuffleTitle();
-                loadCheck();            
+                loadCheck();
 
                 for (let i = 1; i <= numberToCreate; i++) {
                     const col = document.createElement("div");
@@ -380,18 +413,18 @@
 
                     //get whether chaos element is checked
                     var chaos = document.getElementById("chaos").checked;
-                    if(chaos){
+                    if (chaos) {
                         //overwrite seed with random number
-                        seed = Math.floor(Math.random() * 1000000);       
+                        seed = Math.floor(Math.random() * 1000000);
                     }
 
                     seeds.push(seed);
 
                     //provided ?test = true will use a test image
                     if (seedsToUse != undefined) {
-                        img.alt = `${prompt} - with seed ${seedsToUse[i -1]}`;
-                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seedsToUse[i -1]}&generate=false`;
-                        seeds.push(seedsToUse[i -1]);
+                        img.alt = `${prompt} - with seed ${seedsToUse[i - 1]}`;
+                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seedsToUse[i - 1]}&generate=false`;
+                        seeds.push(seedsToUse[i - 1]);
                     }
                     else if (params.test != undefined) {
                         img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
