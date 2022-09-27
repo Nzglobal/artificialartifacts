@@ -76,7 +76,6 @@
         background-repeat: no-repeat;
         background-attachment: fixed;
         margin: auto;
-        padding: 10px;
         overflow: scroll;
         background: linear-gradient(to top, #4e4376, #2b5876)fixed;
         overflow-x: hidden;
@@ -87,10 +86,15 @@
             backdrop-filter: blur(20px);*/
     }
 
+    textarea{
+        border-radius: 4px;
+    }
+
     textarea:hover,
     textarea:focus {
         box-shadow: 0px 0px 10px 5px #ffffc854;
-        transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;        
+        border-radius: 4px;
     }
 
     img:hover {
@@ -140,6 +144,7 @@
     button{
         align-content: center;
         font-size:x-large;
+        border-radius: 4px;
     }
     #prompt{
         font-size:x-large;
