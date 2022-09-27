@@ -33,19 +33,24 @@
     crossorigin="anonymous"></script>
 <script
     defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     html {
-        height: auto;        
+        height: auto;
         font-family: 'Roboto', sans-serif;
     }
 
     /*Helpful in terms of calculating sizes*/
     * {
         box-sizing: border-box;
+    }
+
+    @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
     }
 
     /* Create two equal columns that floats next to each other */
@@ -56,6 +61,7 @@
 
     .column img {
         width: 100%;
+        animation: fadein 2s ease-in-out;
     }
 
     .container:has(img:hover) {
@@ -90,7 +96,7 @@
             backdrop-filter: blur(20px);*/
     }
 
-    textarea{
+    textarea {
         border-radius: 4px;
         font-family: 'Roboto', sans-serif;
     }
@@ -98,7 +104,7 @@
     textarea:hover,
     textarea:focus {
         box-shadow: 0px 0px 10px 5px #ffffc854;
-        transition: all 0.2s ease-in;        
+        transition: all 0.2s ease-in;
         border-radius: 4px;
     }
 
@@ -142,53 +148,70 @@
         position: absolute;
         top: 50%;
         -ms-transform: translateY(-50%);
-        transform: translateY(-50%);     
-        color:white;
+        transform: translateY(-50%);
+        color: white;
         font-size: large;
+        animation: fadein 1s ease-in-out;
     }
-    button{
+   
+    button {
         font-family: 'Roboto', sans-serif;
-        font-size:x-large;
+        font-size: x-large;
         border-radius: 4px;
     }
-    #prompt{
-        font-size:x-large;
-        font-family: 'Roboto', sans-serif;
-    }   
-    .chaoslabel{
+
+    #prompt {
+        font-size: x-large;
         font-family: 'Roboto', sans-serif;
     }
-    .inspirationheader{
-        background: linear-gradient(to top, #4e4376, #2b5876);padding:0px;align-items: center;display:none;
+
+    .chaoslabel {
         font-family: 'Roboto', sans-serif;
     }
-    .inspirationheader > h1{
-        color:white;clear:both;padding:10px;
+
+    .inspirationheader {
+        background: linear-gradient(to top, #4e4376, #2b5876);
+        padding: 0px;
+        align-items: center;
+        display: none;
         font-family: 'Roboto', sans-serif;
     }
-    .inspirationheader > p{
-        color:white;padding:0px 10px 0px 10px;
+
+    .inspirationheader>h1 {
+        color: white;
+        clear: both;
+        padding: 10px;
         font-family: 'Roboto', sans-serif;
+    }
+
+    .inspirationheader>p {
+        color: white;
+        padding: 0px 10px 0px 10px;
+        font-family: 'Roboto', sans-serif;
+    }
+    .inspiration img{
+        animation: fadein 1s ease-in-out;
     }
 </style>
 
 <div id="content">
     <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large">
-        <textarea title="prompt input"
-            placeholder="Enter in the your prompt for AI Art Generation"
+        <textarea title="prompt input" placeholder="Enter in the your prompt for AI Art Generation"
             label="Enter what you want to see" id="prompt"
-            style="width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;" autocomplete="off"></textarea>
+            style="width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;"
+            autocomplete="off"></textarea>
 
         <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
             style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
             Create Art</button>
         <button type="button" id="btnShare" onclick="share(this)"
-            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517; Share
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;
+            Share
             link</button>
         <button type="button"
             style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
-            onclick="reset()">❎ Clear</button>        
-        <input type="checkbox" id="chaos"><label class="chaoslabel">New outputs from the same prompt</label>    
+            onclick="reset()">❎ Clear</button>
+        <input type="checkbox" id="chaos"><label class="chaoslabel">New outputs from the same prompt</label>
         </checkbox>
         <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
@@ -390,7 +413,7 @@
             document.getElementById("container").innerHTML = "";
             document.getElementById("inspiration").innerHTML = "";
             document.getElementById("inspirationHeader").style = "display:none;";
-            document.getElementById("userinput").style="margin: 0;position: absolute;top: 50%;-ms-transform: translateY(-50%);transform: translateY(-50%);color:white;font-size:large;transition: transform .3s ease-out;"
+            document.getElementById("userinput").style = "margin: 0;position: absolute;top: 50%;-ms-transform: translateY(-50%);transform: translateY(-50%);color:white;font-size:large;transition: transform .3s ease-out;"
         }
 
         function create(seedsToUse) {
