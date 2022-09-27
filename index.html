@@ -33,10 +33,14 @@
     crossorigin="anonymous"></script>
 <script
     defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     html {
         height: auto;        
+        font-family: 'Roboto', sans-serif;
     }
 
     /*Helpful in terms of calculating sizes*/
@@ -88,6 +92,7 @@
 
     textarea{
         border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
     }
 
     textarea:hover,
@@ -142,14 +147,18 @@
         font-size: large;
     }
     button{
+        font-family: 'Roboto', sans-serif;
         align-content: center;
         font-size:x-large;
         border-radius: 4px;
     }
     #prompt{
         font-size:x-large;
+        font-family: 'Roboto', sans-serif;
     }   
-
+    .chaoslabel{
+        font-family: 'Roboto', sans-serif;
+    }
 </style>
 
 <div id="content">
@@ -157,7 +166,7 @@
         <textarea title="prompt input"
             placeholder="Enter in the your prompt for AI Art Generation"
             label="Enter what you want to see" id="prompt"
-            style="width:100%;padding:5px;font-family: Arial, Helvetica, sans-serif;" autocomplete="off"></textarea>
+            style="width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;" autocomplete="off"></textarea>
 
         <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
             style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
@@ -167,8 +176,8 @@
             link</button>
         <button type="button"
             style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
-            onclick="reset()">❎ Clear</button>
-        <input type="checkbox" id="chaos" style="color:white;padding: 4px;">Generate new outputs from the same prompt
+            onclick="reset()">❎ Clear</button>        
+        <input type="checkbox" id="chaos"><label class="chaoslabel">New outputs from the same prompt</label>    
         </checkbox>
         <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
@@ -178,7 +187,7 @@
     <div id="inspirationHeader"
         style="background: linear-gradient(to top, #4e4376, #2b5876);padding:1%;align-items: center;display:none;">
         <h1 style="color:white;clear:both;padding:10px">Inspiration</h1>
-        <p style="color:white;padding:10px">Here are some prompts that others have used - Click the prompt text to copy into the
+        <p style="color:white;padding:0px 10px 0px 10px;">Here are some prompts that others have used - Click the prompt text to copy into the
             generator prompt box.
             Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
         <flexbox id="inspiration"></flexbox>
