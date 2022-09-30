@@ -325,9 +325,15 @@
 
         function share(object) {
             var prompt = document.getElementById("prompt").value;
-            savePrompt(prompt);
-            object.innerHTML = "💾 Saving...";
-            setTimeout(resetState, 4000);
+            if(prompt.length > 0){
+                savePrompt(prompt);
+                object.innerHTML = "💾 Saving...";
+                setTimeout(resetState, 4000);
+            }
+            else{
+                object.innerHTML = "⚠️ - Enter a prompt first";
+                setTimeout(resetState, 2000);
+            }           
         }
 
         var shuffuleId = "";
