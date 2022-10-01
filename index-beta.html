@@ -1,217 +1,632 @@
-<!--Returned by different Azure Function to enable Beta Testing on a live domain-->
 <!DOCTYPE html>
-<html>
-    <title>&#127912 Artificial Artifacts</title>    
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <link rel=“canonical” href=“https://nzart.app/api/generator” />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_NZ" />
-        <meta property="og:url" content="https://nzart.app"/>
-        <meta property="og:title" content="Artificial Artifacts" />
-        <meta property="og:description" content="Generate Mind Blowing Art with the help of Artificial Intelligence." />
-        <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
-        <link rel="apple-touch-icon" sizes="180x180"
-            href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32"
-            href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16"
-            href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
-        <link rel="manifest" href="https://nzart.app/api/manifest">
-    </head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<html lang="en">
+<title>&#127912 NZ Art App</title>
 
-    gtag('config', 'G-2QSZV6W319');
-    </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            box-sizing: border-box;
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="canonical" href="https://nzart.app/api/generator" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#2b5876" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2b5876" />
+
+    <meta name="description"
+        content="NZ Art App - Use the power of Stable-Diffusion to create mind blowing art from just a text description">
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_NZ" />
+    <meta property="og:url" content="https://nzart.app" />
+    <meta property="og:title" content="NZ Art App" />
+    <meta property="og:description"
+        content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
+    <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
+    <link rel="manifest"
+        href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
+</head>
+<!-- Google tag (gtag.js) and ads -->
+<script defer="true" async src="https://www.googletagmanager.com/gtag/js?id=G-2QSZV6W319"></script>
+<script defer="true" async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7996261445365362"
+    crossorigin="anonymous"></script>
+<script
+    defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    html {
+        height: auto;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    /*Helpful in terms of calculating sizes*/
+    * {
+        box-sizing: border-box;
+    }
+
+    @keyframes fadein {
+        from {
+            opacity: 0;
         }
-    
-        .header {
-            text-align: center;
-            padding: 32px;
+
+        to {
+            opacity: 1;
         }
-    
-        /* Create two equal columns that floats next to each other */
-        .column {
-            float: left;
-            padding: 10px;
-        }
-    
-        .column img {
-            margin-top: 12px;
-            width: 100%;
-        }
-    
-        /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-    
-        body {
-            margin: 0;
-            font-family: Arial;
-            overflow: scroll;
-            max-width: 1088px;
-            min-height:2160px;
-            margin: auto;
-            padding: 10px;
-            background-color: rgb(19, 18, 18);
-            overflow: scroll;
-            /*background:url("https://source.unsplash.com/random?geometric/1280x720");
+    }
+
+    /* Create two equal columns that floats next to each other */
+    .column {
+        float: left;
+        padding: 10px;
+    }
+
+    .column img {
+        width: 100%;
+        animation: fadein 2s ease-in-out;
+    }
+
+    .container:has(img:hover) {
+        scale: .8;
+        opacity: .7;
+        transition: scale 350ms ease, opacity 350ms linear;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial;
+        overflow: scroll;
+        max-width: 1088px;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: auto;
+        overflow: scroll;
+        background: linear-gradient(to top, #4e4376, #2b5876)fixed;
+        overflow-x: hidden;
+        /*
+            background image would cover entire page, but blur would only affect content in vertical strip
+            background:url("https://source.unsplash.com/random?geometric/1280x720");
             background-size:cover;
             backdrop-filter: blur(20px);*/
-            background: linear-gradient(to top, #4e4376, #2b5876);
-            overflow-x: hidden;
-        }
-    
-        input:hover,
-        input:focus {
-            box-shadow: 0px 0px 20px 5px #ffffc854;
-            transition: all 0.2s ease-in;
-        }
-    
-        img:hover {
-            box-shadow: 0px 0px 20px 5px #ffffc854;
-            transition: all 0.2s ease-in;
-        }
-    
-        button:hover {
-            box-shadow: 0px 0px 20px 5px #ffffc854;
-            transition: all 0.2s ease-in;
-        }
-    
-        .container {
-            height: auto;
-            display: flex;
-        }
-    </style>
-    
-    <div id="content">
-        <div class="UserInput" style="padding:1%;align-items: center;">
-            <input title="prompt input"
-                placeholder="Enter in the your prompt for AI Art Generation - Powered by https://computerender.com/"
-                label="Enter what you want to see" id="prompt" style="width:100%;padding:5px;" autocomplete="off" />
-            <button type="button" id="btnGenerate" onload="fixUrl()" onclick="generate()"
-                style="padding:5px;margin:auto;width:50%;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#128259; Generate</button>
-                <button type="button" id="btnShare" onclick="share()"
-                style="padding:5px;margin:auto;width:49%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;Copy link to clipboard</button>
-            
-            <!--<button id="btnDownload"
+    }
+
+    textarea {
+        border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    textarea:hover,
+    textarea:focus {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+        border-radius: 4px;
+    }
+
+    img:hover {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    button:hover {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    .container {
+        height: auto;
+        display: flex;
+    }
+
+    .loader {
+        box-shadow: none !important;
+    }
+
+    #installContainer {
+        position: absolute;
+        bottom: 1em;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    #installContainer button {
+        background-color: inherit;
+        border: 1px solid white;
+        color: white;
+        font-size: 1em;
+        padding: 0.75em;
+    }
+
+    #userinput {
+        margin: 0;
+        position: absolute;
+        top: 50%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        color: white;
+        font-size: large;
+        animation: fadein 1s ease-in-out;
+    }
+
+    button {
+        font-family: 'Roboto', sans-serif;
+        font-size: x-large;
+        border-radius: 4px;
+    }
+
+    #prompt {
+        font-size: x-large;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .chaoslabel {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .inspirationheader {
+        background: linear-gradient(to top, #4e4376, #2b5876);
+        padding: 0px;
+        align-items: center;
+        display: none;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .inspirationheader>h1 {
+        color: white;
+        clear: both;
+        padding: 10px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .inspirationheader>p {
+        color: white;
+        padding: 0px 10px 0px 10px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .inspiration img {
+        animation: fadein 1s ease-in-out;
+    }
+</style>
+
+<div id="content">
+    <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large">
+        <textarea title="prompt input" placeholder="Enter in the your prompt for AI Art Generation"
+            label="Enter what you want to see" id="prompt"
+            style="width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;"
+            autocomplete="off"></textarea>
+
+        <button type="button" id="btnCreate" onclick="create()"
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
+            Create Art</button>
+        <button type="button" id="btnShare" onclick="share(this)"
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;
+            Share
+            link</button>
+        <button type="button"
+            style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
+            onclick="reset()">❎ Clear</button>
+        <input type="checkbox" id="chaos"><label class="chaoslabel">New outputs from the same prompt</label>
+        </checkbox>
+        <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
-        </div>
-        <flexbox id="container" onload="fixUrl();"></flexbox>
-        <script>
-            function downloadAll() {
-                var images = document.getElementsByTagName('img');
-                var srcList = [];
-                var i = 0;
-                if (images.length > i) {
-                    if (images[i].currentSrc.startsWith("https://api.computer")) {
-                        srcList.push(images[i].src);
-                        var link = document.createElement("a");
-                        link.id = i;
-                        link.download = images[i].src;
-                        link.href = images[i].src;
-                        link.click();
-                        i++;
+    </div>
+    <flexbox id="container"></flexbox>
+
+    <div id="inspirationHeader" class="inspirationheader">
+        <h1>Inspiration</h1>
+        <p>Here are some prompts that others have used - Click the prompt text to copy into the
+            generator prompt box.
+            Powered by <a href="https://lexica.art/" style="color:white;">Lexica.art</a></p>
+        <flexbox id="inspiration"></flexbox>
+    </div>
+
+    <!-- Install button, hidden by default -->
+    <div id="installContainer" style="display:none;">
+        <button id="butInstall" type="button">
+            Install
+        </button>
+    </div>
+
+    <script defer>
+        const internalstate = [];
+        const internalhistory = [];
+        let seeds = [];
+        const divInstall = document.getElementById('installContainer');
+        const butInstall = document.getElementById('butInstall');
+
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+
+        let imagesLoaded = 0;
+        let numberToCreate = 6;
+        if (params.iteration != undefined) {
+            numberToCreate = params.iteration;
+        }
+        if (params.live != undefined) {            
+            loadPromptsIntoInternalState();
+        }
+
+        var input = document.getElementById("prompt");
+        input.addEventListener("keydown", function (e) {
+            if (e.code === "Enter" || e.code === 13) {
+                create();
+            }
+        });
+
+        function resetState() {
+            var share = document.getElementById("btnShare");
+            share.innerHTML = "&#x1F517; Share link";
+        }
+
+        // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
+        let seed = params.seed;
+        let queryPrompt = params.prompt; // "prompt"      
+        if (queryPrompt != undefined) {
+            console.log(`prompt:${queryPrompt}-seed:${seed}`);
+            var input = document.getElementById("prompt");
+            input.value = queryPrompt;       
+            create();
+        }
+
+        let id = params.id;
+        if (id != undefined && id.length == 36) {
+            console.log(`id:${id}`);
+            fetchPrompt(id);
+        }
+
+        function fetchPrompt(id) {
+            //downloads data from: https://nzartificialartifacts.azurewebsites.net/api/url-helper?id=id=1bbe7cdb-0c67-4a70-9df8-f5eca84a8efc&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw== and creates based off the PromptText in the JSON returned
+            try {
+                var url = `https://nzart.app/api/url-helper?id=${id}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+                apiFetch(url, function (response) {
+                    console.log(response);
+                    var input = document.getElementById("prompt");
+                    input.value = response.PromptText;
+                    var seedsToUse = response.Seeds.split(',');
+                    create(seedsToUse);
+                });
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+
+        function savePrompt(prompt) {
+            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seeds}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            //parse json response
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var RowKey = JSON.parse(xhr.responseText).RowKey;
+                    console.log(`Saved RowKey: ${RowKey}`);
+                    let shareableUrl = `https://nzart.app/api/generator?id=${RowKey}`;
+                    // Copy the text inside the text field
+                    navigator.clipboard.writeText(shareableUrl);
+                    var btnShare = document.getElementById("btnShare");
+                    btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
+                }
+            };                           
+        }
+
+        function share(object) {
+            var prompt = document.getElementById("prompt").value;
+            savePrompt(prompt);
+            object.innerHTML = "💾 Saving...";
+            setTimeout(resetState, 4000);
+        }
+
+        var shuffuleId = "";
+        function shuffleTitle() {
+            //updates the title of the webpage every second
+            shuffleId = setInterval(function () {
+                var emojis = ["👨‍🎨", "👩‍🎨", "🖼️", "🎨", "🎭"];
+                document.title = emojis[Math.floor(Math.random() * emojis.length)] + " NZ Art App";
+            }, 1000);
+        }
+
+        //function to check every 500ms whether imagesLoaded is equal to numberToCreate
+        function loadCheck() {
+            setInterval(function () {
+                console.log(`Images Loaded:${imagesLoaded}/${numberToCreate}`);
+                if (imagesLoaded >= numberToCreate) {
+                    imagesLoaded = 0;
+                    console.log("All image requests finished");
+                    console.log(`InternalState:${JSON.stringify(internalstate)}`);
+                    var btnCreate = document.getElementById("btnCreate");
+                    btnCreate.innerHTML = "🎨 Create Art";
+                    if (shuffuleId != "") {
+                        clearInterval(shuffleId);
                     }
                 }
+            }, 500);
+        }
+
+        function slideshow() {
+            var rate = 10000;
+            if (params.rate != undefined) {
+                rate = params.rate;
             }
-    
-            var input = document.getElementById("prompt");
-            input.addEventListener("keydown", function (e) {
-                if (e.code === "Enter") {
-                    generate();
+            if (internalstate.length >= 1) {
+                internalstate.forEach(function (json, index) {
+                    console.log(`Iterating through internal state: ${index} out of ${internalstate.length}`);              
+                    createWithDelay(json,rate);
+                });
+            }
+            else{
+                console.log(`Internal State is empty or undefined: ${internalstate.length}`);
+            }
+        }
+
+        function createWithDelay(json,rate) {
+            var delayId = setTimeout(function () {
+                console.log(`Creating with delay: ${rate}`);              
+                //get the prompt
+                var prompt = json.PromptText;
+                //populate the prompt box
+                var input = document.getElementById("prompt");
+                input.value = prompt;
+                //get the seeds
+                var seeds = json.seeds;
+                //create the art                  
+                create(seeds);                            
+
+                //add to internal history
+                internalhistory.push(prompt);
+                //wait for the art to be created
+                internalstate.splice(json, 1);
+                console.log(`Removed item, Internal State length:${internalstate.length}`);       
+            }, rate);                 
+        }        
+
+        function loadPromptsIntoInternalState() {
+            fetch("https://nzart.app/api/queue-fetcher?code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==").then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log(data);
+                var qMessages = data.QueueMessagesList.QueueMessage;
+
+                //iterate through qMessages
+                for (var i = 0; i < qMessages.length; i++) {
+                    var element = qMessages[i];
+                    //base64 decode the message
+                    var decoded = atob(element.MessageText);
+                    //parse the json
+                    var json = JSON.parse(decoded);
+                    //only add to internalstate if it isn't already been displayed
+                    if (!internalhistory.includes(json)) {
+                        internalstate.push(json);
+                    }
+                }
+                console.log(`Loaded ${internalstate.length} items into internalstate`);
+                slideshow();
+            });          
+        }    
+       
+        function apiFetch(url, callback) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => callback(data));
+        }
+
+        function inspirationLoader(prompt) {
+            var inspirationHeader = document.getElementById("inspirationHeader");
+            inspirationHeader.style = "display:inline;"
+            apiFetch(`https://lexica.art/api/v1/search?q=${prompt}`, function (data) {
+                //sort data based by the height attribute - high to low
+                data.images.sort(function (a, b) {
+                    return a.height - b.height;
+                }).reverse();
+
+                var container = document.getElementById("inspiration");
+                container.innerHTML = "";
+                for (var i = 0; i < data.images.length; i++) {
+                    const link = document.createElement("a");
+                    var column = document.createElement("div");
+                    column.className = "column";
+                    column.style = "width:50%;height:auto;";
+
+                    var img = document.createElement("img");
+                    img.setAttribute("loading", "lazy");
+                    img.src = data.images[i].src;
+                    img.style = "height:auto;";
+                    img.alt = data.images[i].prompt;
+                    link.href = data.images[i].src;
+
+                    var header = document.createElement("div");
+
+                    header.onclick = function () {
+                        //bit of a hack to get the full prompt which is stored in the alt text                      
+                        var fullPrompt = this.parentElement.childNodes[0].alt;
+                        var prompt = document.getElementById("prompt");
+                        prompt.value = fullPrompt;
+                        navigator.clipboard.writeText(fullPrompt);
+                        prompt.focus();
+                        this.innerHTML = "&#x2705; - Copied to clipboard";
+                    }
+                    header.innerHTML = `${data.images[i].prompt.split(' ').slice(0, 10).join(' ')}...`;
+                    header.style = "color:white;margin:10px;text-align:center;";
+                    column.appendChild(img);
+                    column.appendChild(link);
+                    column.appendChild(header);
+                    container.appendChild(column);
                 }
             });
-    
-            function resetState(){
-                var share = document.getElementById("btnShare");
-                share.innerHTML = "&#x1F517;Copy link to clipboard";
+        }
+
+        function reset() {
+            var prompt = document.getElementById("prompt");
+            prompt.value = "";
+            document.getElementById("btnCreate").innerHTML = "🎨 Create Art";
+            document.getElementById("container").innerHTML = "";
+            document.getElementById("inspiration").innerHTML = "";
+            document.getElementById("inspirationHeader").style = "display:none;";
+            document.getElementById("userinput").style = "margin: 0;position: absolute;top: 50%;-ms-transform: translateY(-50%);transform: translateY(-50%);color:white;font-size:large;transition: transform .3s ease-out;"
+        }
+
+        function create(seedsToUse) {
+            var prompt = document.getElementById("prompt").value;
+            var container = document.getElementById("container");
+            var userinput = document.getElementById("userinput").style = "padding:5px;position:relative;transform:translateY(0%);transition: transform .3s ease-out;";
+            seeds = [];
+
+            //empty container of all children
+            container.innerHTML = "";
+            if (prompt != undefined && prompt != "") {
+                console.log("Creating...");  
+
+                inspirationLoader(prompt);
+                //shuffleTitle();
+                loadCheck();
+
+                for (let i = 1; i <= numberToCreate; i++) {
+                    const col = document.createElement("div");
+                    const link = document.createElement("a");
+                    var seed = i;
+                    var btnCreate = document.getElementById("btnCreate");
+                    col.className = "column";
+                    const img = new Image();
+                    const loader = new Image();
+                    loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner.svg";
+                    loader.classList.add('loader');
+                    loader.id = "loader";
+                    loader.style = "width:fit-content;min-width:300px;"
+
+                    img.onload = function () {
+                        document.title = "NZ Art App";
+                        loader.style = "display:none;width:0px;";
+                        imagesLoaded++;
+                    }
+                    img.onerror = function () {
+                        img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/server-buddy.png";
+                        img.style = "width:512px;";
+                        document.title = "Arificial Artifacts"
+                        imagesLoaded++;
+                    };                    
+
+                    btnCreate.innerHTML = "&#x1F914; - Creating...";
+                    document.title = "Creating...";
+
+                    //get whether chaos element is checked
+                    var chaos = document.getElementById("chaos").checked;
+                    if (chaos) {
+                        //overwrite seed with random number
+                        seed = Math.floor(Math.random() * 1000000);
+                    }
+
+                    seeds.push(seed);
+
+                    //provided ?test = true will use a test image
+                    if (seedsToUse != undefined) {
+                        img.alt = `${prompt} - with seed ${seedsToUse[i - 1]}`;
+                        img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seedsToUse[i - 1]}`;
+                        seeds.push(seedsToUse[i - 1]);
+                    }
+                    else if (params.test != undefined) {
+                        img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
+                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}`;
+                    }
+                    else {
+                        img.alt = `${prompt} - with seed ${seed}`;
+                        img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;
+                        link.href = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}`;
+                    }
+                    link.appendChild(loader);
+                    link.appendChild(img)
+
+                    link.download = `${prompt}-${i}.png`;
+                    link.target = "_blank";
+                    col.appendChild(link);
+
+                    container.appendChild(col);
+
+                    prompt.value = undefined;
+                }
+            }
+        }
+
+        //#region hidden
+        function fixUrl() {
+            //removed all calling due to the domain "changing" the images won't download after this has run
+            //remove query params to not interfere with sharing again in the future
+            try {
+                reset();
+                window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
+            } catch (e) {
+                //do nothing - likely running locally
+            }
+        }
+
+        //#endregion
+
+        //#region service-worker
+
+        /*SERVICE_WORKER - Docs: https://web.dev/codelab-make-installable/*/
+        // Initialize deferredPrompt for use later to show browser install prompt.
+        window.addEventListener('beforeinstallprompt', (event) => {
+            // Prevent the mini-infobar from appearing on mobile.
+            event.preventDefault();
+            console.log('👍', 'beforeinstallprompt', event);
+            // Stash the event so it can be triggered later.
+            window.deferredPrompt = event;
+            // Remove the 'hidden' class from the install button container.
+            divInstall.classList.toggle('hidden', false);
+        });
+
+        butInstall.addEventListener('click', async () => {
+            console.log('👍', 'butInstall-clicked');
+            const promptEvent = window.deferredPrompt;
+            if (!promptEvent) {
+                // The deferred prompt isn't available.
+                return;
+            }
+            // Show the install prompt.
+            promptEvent.prompt();
+            // Log the result
+            const result = await promptEvent.userChoice;
+            console.log('👍', 'userChoice', result);
+            // Reset the deferred prompt variable, since
+            // prompt() can only be called once.
+            window.deferredPrompt = null;
+            // Hide the install button.
+            divInstall.classList.toggle('hidden', true);
+        });
+
+        window.addEventListener('appinstalled', (event) => {
+            console.log('👍', 'appinstalled', event);
+            // Clear the deferredPrompt so it can be garbage collected
+            window.deferredPrompt = null;
+        });
+
+        try {
+            /* Only register a service worker if it's supported */
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('https://nzart.app/api/read?resource=service-worker.js&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==');
             }
 
-			function fixUrl(){
-				window.history.pushState("https://nzart.app","Artificial Artifacts","/");
-			}
-    
-            const params = new Proxy(new URLSearchParams(window.location.search), {
-                get: (searchParams, prop) => searchParams.get(prop),
-            });
-            // Get the value of "prompt" in eg "https://example.com/?prompt=some_value"
-            let seed = params.seed;
-            let queryPrompt = params.prompt; // "prompt"      
-            if (queryPrompt != undefined) {			
-                console.log(`prompt:${queryPrompt}-seed:${seed}`);
-                var input = document.getElementById("prompt");
-                input.value = queryPrompt;
-                generate();
+            worker.postMessage("send message to worker");
+            worker.onmessage = function (message) {
+                console.log(`recieved:${message.data} from worker`);
             }
-    
-            function share(){
-                var prompt = document.getElementById("prompt").value;
-                var btnShare = document.getElementById("btnShare");
-                var url = window.location.href + `?prompt=${encodeURIComponent(prompt)}`;
-                // Copy the text inside the text field
-                navigator.clipboard.writeText(url);   
-                btnShare.innerHTML = "&#x2705; - Copied URL to clipboard";
-                setTimeout(resetState,2000);
-            }
-    
-            function generate() {
-                var prompt = document.getElementById("prompt").value;
-                if (prompt != undefined && prompt != "") {
-                    for (let i = 1; i <= 6; i++) {
-                        const col = document.createElement("div");
-                        const link = document.createElement("a");
-                        var btnGenerate = document.getElementById("btnGenerate");
-                        col.className = "column";
-                        const img = new Image();
-                        const loader = new Image();
-                        loader.src = "https://artificialartifacts9b50.blob.core.windows.net/www/spinner2.gif";
-                        loader.id = "loader";		
-						loader.style.width = "128px";
-                        loader.style.margin = "128px";		
-                        img.onload = function () {
-                            document.title = "Artificial Artifacts";
-                            loader.style.display = "none";				
-							loader.style.width = "0px"
-                            btnGenerate.innerHTML = "&#128259; Generate";
-                        }
-                        img.onerror = function () {
-                            img.src = "https://artificialartifacts9b50.blob.core.windows.net/www/failure.png";
-							img.style.width = "512px";
-                            document.title = "Arificial Artifacts"
-                        };
-                        btnGenerate.innerHTML = "&#x1F914; - Generating...";
-                        document.title = "Generating";
-                        img.src = `https://api.computerender.com/generate/${prompt}?seed=${i}`;
-                        link.appendChild(loader);
-                        link.appendChild(img)
-                        link.href = `/api/downloader?url=https://api.computerender.com/generate/${prompt}?seed=${i}`; //img.src;
-                        link.download = `${prompt}-${i}.png`;  //`${prompt}-${i}`
-                        link.target = "_blank";
-                        col.appendChild(link);
-    
-                        var container = document.getElementById("container");
-                        if (container.children?.length >= 6) {
-                            container.prepend(col);
-                        }
-                        else {
-                            container.appendChild(col);
-                        }
-                        prompt.value = undefined;
-                    }
-                }
-            }        
-        </script>
-    </html>
+        }
+        catch (Exception) {
+            console.log("Service worker not configured properly");
+        }
+        //#endregion
+    </script>
+</html>
