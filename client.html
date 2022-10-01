@@ -87,7 +87,7 @@
         background-attachment: fixed;
         margin: auto;
         overflow: scroll;
-        background: linear-gradient(to top, #007028, #72b348)fixed;
+        background: linear-gradient(33deg, #007029, #49c443)fixed;
         overflow-x: hidden;
         /*
             background image would cover entire page, but blur would only affect content in vertical strip
@@ -239,7 +239,7 @@
             img.alt = `${prompt} - with seed ${seed}`;
             img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;  
             
-            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&source=client&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
@@ -251,7 +251,7 @@
                     console.log(`Saved RowKey: ${RowKey}`);          
                     btnCreate.innerHTML = "✅- Sent to server";
 
-                    sleep(1000).then(() => {
+                    sleep(1500).then(() => {
                         btnCreate.innerHTML = "🎨 Create Art";
                     });
                 }
