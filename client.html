@@ -215,10 +215,52 @@
         <br>
         <li>It doesn't need to make sense, provide keywords for something abstract, perhaps a crazy dream you've had</li>
     </ul>
+    <img id="placeholder" style="display:none;"></img>
 
     <script>
         function reset() {
             document.getElementById("prompt").value = "";
+        }
+
+        function create()
+        {
+            var prompt = document.getElementById("prompt").value;
+            var displayname = document.getElementById("displayname").value;
+            var btnCreate = document.getElementById("btnCreate");
+            btnCreate.innerHTML = "📤 Sending to server...";
+
+            if (prompt == "") {
+                alert("Please enter a prompt");
+                return;
+            }
+            var img = document.getElementById("placeholder");
+
+            seed = Math.floor(Math.random() * 1000000);
+            img.alt = `${prompt} - with seed ${seed}`;
+            img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;  
+            
+            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            //parse json response
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var RowKey = JSON.parse(xhr.responseText).RowKey;
+                    console.log(`Saved RowKey: ${RowKey}`);          
+                    btnCreate.innerHTML = "✅- Sent to server";
+
+                    sleep(1000).then(() => {
+                        btnCreate.innerHTML = "🎨 Create Art";
+                    });
+                }
+            };
+
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
         }
     </script>
 
