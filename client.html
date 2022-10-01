@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>&#127912 NZ Art App</title>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="canonical" href="https://nzart.app/api/generator" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#2b5876" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#2b5876" />
+
+    <meta name="description"
+        content="NZ Art App - Use the power of Stable-Diffusion to create mind blowing art from just a text description">
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_NZ" />
+    <meta property="og:url" content="https://nzart.app" />
+    <meta property="og:title" content="NZ Art App" />
+    <meta property="og:description"
+        content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
+    <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
+    <link rel="manifest"
+        href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
+</head>
+<script
+    defer="true">window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-2QSZV6W319');</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    html {
+        height: auto;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    /*Helpful in terms of calculating sizes*/
+    * {
+        box-sizing: border-box;
+    }
+
+    @keyframes fadein {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* Create two equal columns that floats next to each other */
+    .column {
+        float: left;
+        padding: 10px;
+    }
+
+    .column img {
+        width: 100%;
+        animation: fadein 2s ease-in-out;
+    }
+
+    .container:has(img:hover) {
+        scale: .8;
+        opacity: .7;
+        transition: scale 350ms ease, opacity 350ms linear;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial;
+        overflow: scroll;
+        max-width: 1088px;
+        height: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: auto;
+        overflow: scroll;
+        background: linear-gradient(to top, #007028, #72b348)fixed;
+        overflow-x: hidden;
+        /*
+            background image would cover entire page, but blur would only affect content in vertical strip
+            background:url("https://source.unsplash.com/random?geometric/1280x720");
+            background-size:cover;
+            backdrop-filter: blur(20px);*/
+    }
+
+    textarea {
+        border-radius: 4px;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    textarea:hover,
+    textarea:focus {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+        border-radius: 4px;
+    }
+    input:hover,
+    input:focus {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+        border-radius: 4px;
+    }
+
+    img:hover {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    button:hover {
+        box-shadow: 0px 0px 10px 5px #ffffc854;
+        transition: all 0.2s ease-in;
+    }
+
+    .container {
+        height: auto;
+        display: flex;
+    }
+
+    .loader {
+        box-shadow: none !important;
+    }
+
+    #userinput {
+        margin: 0;
+        /*position: absolute;*/
+        margin-top: 35%;
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        color: white;
+        font-size: large;
+        animation: fadein 1s ease-in-out;
+    }
+
+    button {
+        font-family: 'Roboto', sans-serif;
+        font-size: x-large;
+        border-radius: 4px;
+    }
+
+    #prompt {
+        font-size: x-large;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .chaoslabel {
+        font-family: 'Roboto', sans-serif;
+    }
+  
+    h1{
+        color:white;
+        font-family: 'Roboto', sans-serif;
+        font-size: xxx-large;
+        text-align: center;
+    }
+    h2{
+        color:white;
+        font-family: 'Roboto', sans-serif;
+        font-size: xx-large;
+        text-align: center;   
+    }
+    li{
+        color:white;
+        text-align: center;
+        font-family: 'Roboto', sans-serif;
+        font-size: large;
+        list-style: none;
+    }
+</style>
+
+<div id="content"> 
+    <h1>Big Day Out</h1><h2>Image Generator</h2>
+    <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large;border:white;border-radius:20px;">
+        <input id="displayname" placeholder="Enter your Display Name (Optional)"
+            style="text-align:center;width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;border-radius: 4px; margin-bottom: 5px;font-size:x-large;">
+        </input>
+        <textarea title="prompt input" placeholder="Enter in the your prompt for AI Art Generation"
+            label="Enter what you want to see" id="prompt"
+            style="text-align:center;width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;font-size:x-large;"
+            autocomplete="off"></textarea>
+
+        <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
+            style="padding:5px;margin:auto;width:50%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
+            Create Art</button>
+        <!--<button type="button" id="btnShare" onclick="share(this)"
+            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;
+            Share
+            link</button>-->
+        <button type="button"
+            style="padding:5px;margin:auto;width:50%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
+            onclick="reset()">❎ Clear</button>
+        </checkbox>
+    </div>
+    <h2>Tips:</h2>
+    <ul>
+        <li>The more specific the better the result</li>
+        <br>
+        <li>Try adding keywords - 4k, dynamic lighting, masterpiece</li>
+        <br>
+        <li>Specify the medium - Oil painting, watercolor, pixar render etc.</li>
+        <br>
+        <li>Combine unrelated concepts:mc escher inspired, city skyline,purple and gold, sacred Geometry, Baroque art, Cinematic lighting</li>
+        <br>
+        <li>It doesn't need to make sense, provide keywords for something abstract, perhaps a crazy dream you've had</li>
+    </ul>
+
+    <script>
+        function reset() {
+            document.getElementById("prompt").value = "";
+        }
+    </script>
+
+</html>
