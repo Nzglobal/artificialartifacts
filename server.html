@@ -112,7 +112,6 @@
             from {
                 opacity: 0;
             }
-
             to {
                 opacity: 1;
             }
@@ -120,7 +119,6 @@
     </style>
     <script type="text/javascript">
         const state = [];
-        //const history = [];
 
         function load(index) {
             console.log(`index: ${index}`);
@@ -147,7 +145,7 @@
                     var decoded = atob(state[index].MessageText);
                     var selected = JSON.parse(decoded);
 
-                    document.getElementById("prompttext").innerHTML = `${selected.PromptText} - ${state[index].InsertionTime}`;
+                    document.getElementById("prompttext").innerHTML = `${selected.PromptText}`; //- ${state[index].InsertionTime}`;
                     document.getElementById("presenter").innerHTML = `${selected.DisplayName} presents...`;
 
                     img.src = `https://nzart.app/api/downloader?prompt=${selected.PromptText}&seed=${selected.Seeds}`;
@@ -240,7 +238,6 @@
             }
             catch (e) {
                 console.error(e);
-
                 //Hopefully just a transient error, so try again
                 sleep(2000);
                 fetchPrompts(0);
