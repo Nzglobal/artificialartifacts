@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+<html lang="en">
+<title>&#127912 NZ Art Server</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+
 <head>
+    <meta name="description"
+        content="NZ Art App - Use the power of Stable-Diffusion to create mind blowing art from just a text description">
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_NZ" />
+    <meta property="og:url" content="https://nzart.app" />
+    <meta property="og:title" content="NZ Art App" />
+    <meta property="og:description"
+        content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
+    <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
+    <link rel="manifest"
+        href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
     <meta charset="utf-8">
     <title>Image Loader</title>
     <style>
@@ -26,23 +45,34 @@
 
         img {
             scale: 1;
-            animation: fadein 1s ease-in-out;border: white;border-radius: 20px;border-style: solid;border-width: thick;
+            animation: fadein 1s ease-in-out;
+            border: white;
+            border-radius: 20px;
+            border-style: solid;
+            border-width: thick;
         }
 
-        .container{
+        .container {
             height: auto;
             display: flex;
         }
 
         h1 {
             font-size: xx-large;
-            font-weight: 100;
+            font-weight: 500;
             color: white;
-            font-family: fantasy;          
-            animation: fadein 1s ease-in-out;        
-        }        
+            font-family: fantasy;
+            animation: fadein 1s ease-in-out;
+        }
 
-        .prompttext{
+        h2 {
+            animation: fadein 1s ease-in-out;
+            font-family: fantasy;
+            color: white;
+            font-weight: 200;
+        }
+
+        .prompttext {
             font-size: large;
             color: white;
             font-family: fantasy;
@@ -50,31 +80,39 @@
             margin-left: 39%;
             animation: fadein 1s ease-in-out;
         }
-        .header{
+
+        .header {
             align-items: center;
             animation: fadein 1s ease-in-out;
-            position:absolute;
-            top: 20px;       
+            position: absolute;
+            top: 20px;
         }
-        .header > h1 {
+
+        .header>h1 {
             font-size: xx-large;
             color: white;
-            font-family: fantasy;          
         }
-        .footer{   
-            align-items: center;         
+
+        .footer {
+            align-items: center;
         }
-        .footer > h1
-        {
+
+        .footer>h1 {
             font-size: xx-large;
             color: white;
-            font-family: fantasy;             
         }
-        
+
+        #intro {
+            font-size: xx-large;
+            color: white;
+            font-weight: 400;
+        }
+
         @keyframes fadein {
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -82,20 +120,18 @@
     </style>
     <script type="text/javascript">
         const state = [];
-        const history = [];
+        //const history = [];
 
         function load(index) {
             console.log(`index: ${index}`);
             setTimeout(function () {
                 if (index >= 0) {
                     var img = new Image();
-                    //img.style = "animation: fadein 1s ease-in-out;border: white;border-radius: 20px;border-style: solid;border-width: thick;"
 
                     //sort state based off data format of Sat, 01 Oct 2022 20:58:16 GMT
                     state.sort(function (a, b) {
-                        return new Date(a.date) - new Date(b.date);
+                        return new Date(a.InsertionTime) - new Date(b.InsertionTime);
                     });
-                    state.reverse();
                     //console.log(`state: ${state[0].InsertionTime}`);
 
                     //iterate through state logging the insertion time of each entity
@@ -103,54 +139,42 @@
                         console.log(`state: ${state[i].InsertionTime}`);
                     }
 
-                    //sort state based of QueueNumber
-                    /*state.sort(function (a, b) {
-                        return a.QueueNumber - b.QueueNumber;
-                    });*/
                     console.log(`First in State after sorting: ${JSON.stringify(state[0])}`);
-                    
+
                     var queueCount = Number(state[index].DequeueCount);
                     var receipt = state[index].PopReceipt;
                     var id = state[index].MessageId;
                     var decoded = atob(state[index].MessageText);
                     var selected = JSON.parse(decoded);
 
-                    document.getElementById("prompttext").innerHTML = selected.PromptText;
+                    document.getElementById("prompttext").innerHTML = `${selected.PromptText} - ${state[index].InsertionTime}`;
                     document.getElementById("presenter").innerHTML = `${selected.DisplayName} presents...`;
 
-                    //console.log(`Selected:${selected}`);
-                    //console.log(`SCount:${state.length}-State:${JSON.stringify(state)}`);
-                    //console.log(`HCount: ${history.length}-History:${JSON.stringify(history)}`)
-
-                    img.src = `https://nzart.app/api/downloader?prompt=${selected.PromptText}&seed=${selected.Seeds[0]}`;
+                    img.src = `https://nzart.app/api/downloader?prompt=${selected.PromptText}&seed=${selected.Seeds}`;
                     //if image isn't in container add it, otherwise replace it
                     if (document.getElementById("container").children.length > 0) {
                         document.getElementById("container").replaceChild(img, document.getElementById("container").children[0]);
                     } else {
                         document.getElementById("container").appendChild(img);
                     }
-                    //only add it to the history if it's not already there to prevent memory bloat
-                    if (history.filter(x => x.PromptText == selected.PromptText).length == 0) {
-                        history.push(selected);
-                    }               
-
-                    //removing existing creations as I just want it to cycle through all of them, but prefer the main one to be the most recent
-                    /*if (queueCount > 3) {
-                        history.push(selected);
-                        state.splice(index, 1);
-                        //delete message from the queue
+                    if (state.length >= 5) {
+                        //State is already sorted, so we should be able to delete the first item
                         if (id != undefined && receipt != undefined) {
-                            fetch(`https://nzart.app/api/queue-fetcher?id=${id}&receipt=${receipt}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (response) {
+                            console.log(`Deleting: ${JSON.stringify(state[0])}`);
+                            //also removing it from state, so this doesn't trigger contiunously                  
+                            fetch(`https://nzart.app/api/queue-fetcher?id=${state[0].MessageId}&receipt=${state[0].PopReceipt}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (response) {
                                 console.log(`Deleted: ${JSON.stringify(response)}`);
                             });
-                        }else {
-                            console.warn(`Unable to delete message from queue. One or more values were undefined ID:${id} Receipt:${receipt}`);
+                            //remove from state after deleting
+                            state.splice(state[0], 1);
                         }
-                    }*/
+                    }
+
                     load(index - 1);
                 }
-                if (index == 0) {    
-                    index = state.length;                
+                if (index == 0) {
+                    console.log(`Shown all, going back to the top`);
+                    index = state.length;
                     //new event type of finishedRender
                     var event = new Event('finishedRender');
                     document.dispatchEvent(event);
@@ -166,50 +190,55 @@
 
         function fetchPrompts() {
             //preload - Doggo, Kitten, Octopus,Hippo,Unicorn
-            try{
-            fetch("https://nzart.app/api/queue-fetcher?code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==").then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                console.log(data);
-                var qMessages = data.QueueMessagesList?.QueueMessage;
-                if (qMessages != undefined) {
-                    //check type of qMessages
-                    if (Array.isArray(qMessages)) {
-                        //iterate through qMessages
-                        for (var i = 0; i < qMessages.length; i++) {
-                            var element = qMessages[i];
-                            //base64 decode the message
-                            var decoded = atob(element.MessageText);
-                            //parse the json
-                            var json = JSON.parse(decoded);
-                            //only add to state if the prompt value does not exist in history
-                            if (history.filter(x => x.PromptText == json.PromptText).length == 0) {
-                                if(json.Source == "client"){
-                                    console.log(`Prompt:${json.PromptText} does not exist in history, adding to state:DequeueCount:${element.DequeueCount}`);
-                                    state.push(element);
+            try {
+                fetch("https://nzart.app/api/queue-fetcher?code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==").then(function (response) {
+                    return response.json();
+                }).then(function (data) {
+                    var qMessages = data.QueueMessagesList?.QueueMessage;
+                    if (qMessages != undefined) {
+                        //check type of qMessages
+                        if (Array.isArray(qMessages)) {
+                            //iterate through qMessages
+                            for (var i = 0; i < qMessages.length; i++) {
+                                var element = qMessages[i];
+                                //base64 decode the message
+                                var decoded = atob(element.MessageText);
+                                //parse the json
+                                var json = JSON.parse(decoded);
+
+                                //only add to state if the prompt value is not already in state
+                                if (state.filter(x => JSON.parse(atob(x.MessageText)).PromptText == json.PromptText).length == 0) {
+                                    if (json.Source == "client") {
+                                        console.log(`Prompt:${json.PromptText} does not exist in state, adding to state:DequeueCount:${element.DequeueCount}`);
+                                        state.push(element);
+                                    }
                                 }
                             }
+                            console.log(`Loaded ${state.length} items into state`);
+
+                            load(state.length - 1);
+
                         }
-                        console.log(`Loaded ${state.length} items into state`);
+                        else {
+                            var decoded = atob(qMessages.MessageText);
+                            var json = JSON.parse(decoded);
 
-                        load(state.length - 1);
-
-                    } else {
-                        var decoded = atob(qMessages.MessageText);
-                        var json = JSON.parse(decoded);
-                        if (history.filter(x => x.PromptText == json.PromptText).length == 0) {
-                            if(json.Source == "client"){
-                                console.log(`Prompt:${json.PromptText} does not exist in history, adding to state`);
-                                state.push(qMessages);
+                            //we don't want to add duplicates to state                           
+                            if (state.filter(x => JSON.parse(atob(x.MessageText)).PromptText == json.PromptText).length == 0) {
+                                if (json.Source == "client") {
+                                    console.log(`Prompt:${json.PromptText} does not exist in state, adding to state`);
+                                    state.push(qMessages);
+                                }
                             }
+
+                            //There's only one entry, qMessages is not an array, so just load it                      
+                            load(0);
                         }
-                        //There's only one entry, qMessages is not an array, so just load it
-                        load(0);
+                        console.log(`Loaded ${state.length} unique items into state`);
                     }
-                }
-            });
+                });
             }
-            catch(e){
+            catch (e) {
                 console.error(e);
 
                 //Hopefully just a transient error, so try again
@@ -223,9 +252,18 @@
         }
     </script>
 </head>
-<div id="header"><h1 id="presenter"></h1></div>
+<div id="intro">
+    <h1>Big Day Out - Art Exhibition</h1>
+</div>
+<div id="header">
+    <h1 id="presenter"></h1>
+</div>
+
 <body onload="fetchPrompts()">
     <flexbox id="container"></flexbox>
 </body>
-<footer><h1 id="prompttext"></h1></footer>
+<footer>
+    <h1 id="prompttext"></h1>
+</footer>
+
 </html>
