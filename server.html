@@ -37,7 +37,7 @@
             background: linear-gradient(33deg, #007029, #49c443)fixed;
             overflow-x: hidden;
             text-align: center;
-            font-family: 'Roboto', sans-serif;         
+            font-family: 'Roboto', sans-serif;
         }
 
         img {
@@ -109,63 +109,62 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
         }
     </style>
-    <script type="text/javascript">     
-        function load(index,state) {
+    <script type="text/javascript">
+        function load(index, state) {
             console.log(`index: ${index}`);
             setTimeout(function () {
-                if (index >= 0) {            
-
-                    //sort state based off data format of Sat, 01 Oct 2022 20:58:16 GMT
-                    state.sort(function (a, b) {
-                        return new Date(a.InsertionTime) - new Date(b.InsertionTime);
-                    });
-      
+                if (index >= 0) {                
                     var decoded = atob(state[index].MessageText);
-                    var current = JSON.parse(decoded);                                  
+                    var current = JSON.parse(decoded);
 
                     //trying moving the generation of the image until after the deletion                    
-                    revealImage(current.PromptText, current.Seeds,current.DisplayName);
+                    revealImage(current.PromptText, current.Seeds, current.DisplayName);
 
-                    load(index - 1,state);
+                    load(index - 1, state);
                 }
                 if (index < 0) {
                     console.log(`Shown all, cycling through state again`);
                     index = state.length;
                     //new event type of finishedRender
-                    var event = new Event('finishedRender');
-                    document.dispatchEvent(event);
+                    //var event = new Event('finishedRender');
+                    //document.dispatchEvent(event);
+                    fetchPrompts();
                     console.log("Displayed all fetched images, requesting more");
                 }
             }, 7000);
         }
 
-        function deleteQueueMessage(messageId, popReceipt) {
-            try{
-                console.log(`Deleting: ${messageId} ${popReceipt}`);
-                fetch(`https://nzart.app/api/queue-fetcher?id=${messageId}&receipt=${encodeURIComponent(popReceipt)}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`)
-            }catch{
-                console.log(`Could not delete queue message`);
-            }
+        async function deleteQueueMessage(messageId, popReceipt) {
+            console.log(`Deleting: ${messageId} ${popReceipt}`);
+            fetch(`https://nzart.app/api/queue-fetcher?id=${messageId}&receipt=${encodeURIComponent(popReceipt)}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (
+                response) {
+                if (response.ok) {
+                    console.log("Deleted");
+                } else {
+                    console.log("Error deleting");
+                }
+            });
         }
 
-        function revealImage(prompt,seed,displayname){
+        function revealImage(prompt, seed, displayname) {
             const img = new Image();
             console.log(`Generating image for ${displayname} using:${prompt} - seed:${seed}`);
             img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}`;
 
             document.getElementById("prompttext").innerHTML = `${prompt}`; //- ${state[index].InsertionTime}`;
             document.getElementById("presenter").innerHTML = `${displayname} presents...`;
-             //if image isn't in container add it, otherwise replace it
-             if (document.getElementById("container").children.length > 0) {
+            //if image isn't in container add it, otherwise replace it
+            if (document.getElementById("container").children.length > 0) {
                 document.getElementById("container").replaceChild(img, document.getElementById("container").children[0]);
-             }else {
+            } else {
                 document.getElementById("container").appendChild(img);
-             }
+            }
 
         }
 
@@ -203,7 +202,7 @@
                             }
                             console.log(`Loaded ${state.length} items into state`);
 
-                            load(state.length - 1,state);
+                            load(state.length - 1, state);
 
                         }
                         else {
@@ -219,18 +218,23 @@
                             }
 
                             //There's only one entry, qMessages is not an array, so just load it                      
-                            load(0,state);
+                            load(0, state);
                         }
                         console.log(`Loaded ${state.length} unique items into state`);
-                    
-                         //checking state.lenth == 5 will keep 4 active images at once
+
+                        //checking state.lenth == 5 will keep 4 active images at once
                         if (state.length >= 5) {
+                            //sorts, so index[0] is the oldest
+                            state.sort(function (a, b) {
+                                return new Date(a.InsertionTime) - new Date(b.InsertionTime);
+                            });
+
                             //State is already sorted, so we should be able to delete the first item
                             if (state[0].MessageId != undefined && state[0].PopReceipt != undefined && Number(state[0].DequeueCount) >= 1) {
                                 console.log(`Deleting: ${JSON.stringify(state[0])}`);
-                                deleteQueueMessage(state[0].MessageId, state[0].PopReceipt);                           
+                                deleteQueueMessage(state[0].MessageId, state[0].PopReceipt);
                             }
-                            else{
+                            else {
                                 console.log(`Not deleting: ${JSON.stringify(state[0])}`);
                             }
                         }
