@@ -137,8 +137,6 @@
                         console.log(`state: ${state[i].InsertionTime}`);
                     }
 
-                    console.log(`First in State after sorting: ${JSON.stringify(state[0])}`);
-
                     var queueCount = Number(state[index].DequeueCount);
                     var receipt = state[index].PopReceipt;
                     var id = state[index].MessageId;
