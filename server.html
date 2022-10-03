@@ -155,7 +155,7 @@
         function revealImage(prompt, seed, displayname) {
             const img = new Image();
             console.log(`Generating image for ${displayname} using:${prompt} - seed:${seed}`);
-            img.src = `https://nzart.app/api/downloader?prompt=${prompt}&seed=${seed}`;
+            img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;
 
             document.getElementById("prompttext").innerHTML = `${prompt}`; //- ${state[index].InsertionTime}`;
             document.getElementById("presenter").innerHTML = `${displayname} presents...`;
