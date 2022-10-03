@@ -419,7 +419,7 @@
         }
 
         function create(seedsToUse) {
-            var prompt = document.getElementById("prompt").value;
+            var prompt = sanitize(document.getElementById("prompt").value);
             var container = document.getElementById("container");
             var userinput = document.getElementById("userinput").style = "padding:5px;position:relative;transform:translateY(0%);transition: transform .3s ease-out;";
             seeds = [];
@@ -497,6 +497,10 @@
                     prompt.value = undefined;
                 }
             }
+        }
+
+        function sanitize(prompt){
+            return prompt.replace(/[^a-zA-Z0-9 ]/g, "");
         }
 
         /*SERVICE_WORKER - Docs: https://web.dev/codelab-make-installable/*/

@@ -237,6 +237,9 @@
 
             seed = Math.floor(Math.random() * 1000000);
             img.alt = `${prompt} - with seed ${seed}`;
+
+            prompt = sanitize(prompt);
+
             img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;  
             
             var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&source=client&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
@@ -257,6 +260,10 @@
                 }
             };
 
+        }
+
+        function sanitize(prompt){
+            return prompt.replace(/[^a-zA-Z0-9 ]/g, "");
         }
 
         function sleep(ms) {
