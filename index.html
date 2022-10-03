@@ -207,7 +207,7 @@
             style="padding:5px;margin:auto;width:20%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
             onclick="reset()">❎ Clear</button>
         <input type="checkbox" id="chaos"><label class="chaoslabel">New outputs from the same prompt</label>
-        <p><label style="font-size:small"><i>NSFW prompts results are censored temporarily, toggle coming soon..</i></label>
+        <!--<p><label style="font-size:small"><i>NSFW prompts results are censored temporarily, toggle coming soon..</i></label>-->
         </checkbox>
         <!--<button id="btnDownload"
                 style="padding:5px;margin:auto;width:25%;margin-left:5%;" onclick="downloadAll()">Download</button>-->
@@ -258,6 +258,8 @@
         function fixUrl() {
             //remove query params to not interfere with sharing again in the future
             try {
+                console.log(`If you're reading this, something either went wrong or right`);
+                console.log(`For feature requests, or issues please e-mail: jm@nzart.app`);
                 reset();
                 window.history.pushState("https://nzart.app/api/generator", "NZ Art App", "/");
             } catch (e) {
