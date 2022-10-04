@@ -480,12 +480,12 @@
                     }
                     else if (params.test != undefined) {
                         img.src = "https://api.computerender.com/generate/blue-barn-with-a-red-door.png";
-                        link.href = `https://nzart.app/api/downloader/${prompt}?prompt=${prompt}&seed=${seed}`;
+                        link.href = `https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`;
                     }
                     else {
                         img.alt = `${prompt} - with seed ${seed}`;
                         img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;
-                        link.href = `https://nzart.app/api/downloader/${prompt}?prompt=${prompt}&seed=${seed}`;
+                        link.href = `https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`;
                     }
                     link.appendChild(loader);
                     link.appendChild(img)
