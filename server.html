@@ -116,6 +116,22 @@
         }
     </style>
     <script type="text/javascript">
+        const params = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop),
+        });
+
+        if(params.rate != undefined){
+            var rate = params.rate;
+        } else {
+            var rate = 7000;
+        }
+        if(params.length != undefined)
+        {
+            var length = params.length;
+        } else {
+            var length = 10;
+        }
+
         function load(index, state) {
             console.log(`index: ${index}`);
             setTimeout(function () {
@@ -137,7 +153,7 @@
                     fetchPrompts();
                     console.log("Displayed all fetched images, requesting more");
                 }
-            }, 7000);
+            }, rate);
         }
 
         async function deleteQueueMessage(messageId, popReceipt) {
@@ -222,8 +238,8 @@
                         }
                         console.log(`Loaded ${state.length} unique items into state`);
 
-                        //checking state.lenth == 5 will keep 4 active images at once
-                        if (state.length >= 5) {
+                        //checking state.lenth == {params.length or (10)} will keep {x} active images at once
+                        if (state.length >= length) {
                             //sorts, so index[0] is the oldest
                             state.sort(function (a, b) {
                                 return new Date(a.InsertionTime) - new Date(b.InsertionTime);
