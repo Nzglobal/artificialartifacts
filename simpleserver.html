@@ -14,13 +14,13 @@
     <meta property="og:title" content="NZ Art App" />
     <meta property="og:description"
         content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
-    <meta property="og:image" content="https://nzartapp.blob.core.windows.net/www/nzart-app.jpg" />
+    <meta property="og:image" content="https://artificialartifacts9b50.blob.core.windows.net/www/nzart-app.jpg" />
     <link rel="apple-touch-icon" sizes="180x180"
-        href="https://nzartapp.blob.core.windows.net/www/apple-touch-icon.png">
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32"
-        href="https://nzartapp.blob.core.windows.net/www/favicon-32x32.png">
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16"
-        href="https://nzartapp.blob.core.windows.net/www/favicon-16x16.png">
+        href="https://artificialartifacts9b50.blob.core.windows.net/www/favicon-16x16.png">
     <link rel="manifest"
         href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
     <meta charset="utf-8">
@@ -120,13 +120,12 @@
             get: (searchParams, prop) => searchParams.get(prop),
         });
 
-        if(params.rate != undefined){
+        if (params.rate != undefined) {
             var rate = params.rate;
         } else {
             var rate = 7000;
         }
-        if(params.length != undefined)
-        {
+        if (params.length != undefined) {
             var length = params.length;
         } else {
             var length = 10;
@@ -135,12 +134,11 @@
         function load(index, state) {
             console.log(`index: ${index}`);
             setTimeout(function () {
-                if (index >= 0) {                
-                    var decoded = atob(state[index].MessageText);
-                    var current = JSON.parse(decoded);
-
+                if (index >= 0) {                  
+                    console.log(`State: ${state}`);
+                    
                     //trying moving the generation of the image until after the deletion                    
-                    revealImage(current.PromptText, current.Seeds, current.DisplayName);
+                    revealImage(state[index].PromptText, state[index].Seeds, state[index].DisplayName);
 
                     load(index - 1, state);
                 }
@@ -192,69 +190,36 @@
         function fetchPrompts() {
             //preload - Doggo, Kitten, Octopus,Hippo,Unicorn
             try {
-                fetch("https://nzart.app/api/queue-fetcher?code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==").then(function (response) {
+                fetch("https://nzartificialartifacts.azurewebsites.net/api/prompts?code=dI1BldTqK9VXfJ6EaO1pPNjF0ihWEf9UtGls9jf2JvOGAzFuIszRsQ==").then(function (response) {
                     return response.json();
                 }).then(function (data) {
                     const state = [];
-                    var qMessages = data.QueueMessagesList?.QueueMessage;
-                    if (qMessages != undefined) {
-                        //check type of qMessages
-                        if (Array.isArray(qMessages)) {
-                            //iterate through qMessages
-                            for (var i = 0; i < qMessages.length; i++) {
-                                var element = qMessages[i];
-                                //base64 decode the message
-                                var decoded = atob(element.MessageText);
-                                //parse the json
-                                var json = JSON.parse(decoded);
+                    console.log(`ResponseData:${JSON.stringify(data)}`);
+                    var queuedPrompts = data.Prompts;
+                    if (queuedPrompts != undefined) {
+                        //check type of queuedPrompts                    
+                        //iterate through queuedPrompts
+                        for (var i = 0; i < queuedPrompts.length; i++) {
+                            var json = queuedPrompts[i];
 
-                                //only add to state if the prompt value is not already in state
-                                if (state.filter(x => JSON.parse(atob(x.MessageText)).PromptText == json.PromptText).length == 0) {
-                                    if (json.Source == "client") {
-                                        console.log(`Prompt:${json.PromptText} does not exist in state, adding to state:DequeueCount:${element.DequeueCount}`);
-                                        state.push(element);
-                                    }
-                                }
-                            }
-                            console.log(`Loaded ${state.length} items into state`);
-
-                            load(state.length - 1, state);
-
-                        }
-                        else {
-                            var decoded = atob(qMessages.MessageText);
-                            var json = JSON.parse(decoded);
-
-                            //we don't want to add duplicates to state                           
-                            if (state.filter(x => JSON.parse(atob(x.MessageText)).PromptText == json.PromptText).length == 0) {
+                            //only add to state if the prompt value is not already in state
+                            if (state.filter(x => x.PromptText == json.PromptText).length == 0) {
                                 if (json.Source == "client") {
-                                    console.log(`Prompt:${json.PromptText} does not exist in state, adding to state`);
-                                    state.push(qMessages);
+                                    console.log(`Prompt:${json.PromptText} does not exist in state`);
+                                    state.push(json);
                                 }
                             }
-
-                            //There's only one entry, qMessages is not an array, so just load it                      
-                            load(0, state);
                         }
-                        console.log(`Loaded ${state.length} unique items into state`);
+                        console.log(`Loaded ${state.length} items into state`);
 
-                        //checking state.lenth == {params.length or (10)} will keep {x} active images at once
-                        if (state.length >= length) {
-                            //sorts, so index[0] is the oldest
-                            state.sort(function (a, b) {
-                                return new Date(a.InsertionTime) - new Date(b.InsertionTime);
-                            });
+                        load(state.length - 1, state);
 
-                            //State is already sorted, so we should be able to delete the first item
-                            if (state[0].MessageId != undefined && state[0].PopReceipt != undefined && Number(state[0].DequeueCount) >= 1) {
-                                console.log(`Deleting: ${JSON.stringify(state[0])}`);
-                                deleteQueueMessage(state[0].MessageId, state[0].PopReceipt);
-                            }
-                            else {
-                                console.log(`Not deleting: ${JSON.stringify(state[0])}`);
-                            }
-                        }
+                        //There's only one entry, queuedPrompts is not an array, so just load it                      
+                        load(0, state);
                     }
+                    console.log(`Loaded ${state.length} unique items into state`);
+
+
                 });
             }
             catch (e) {
