@@ -475,7 +475,7 @@
                     //provided ?test = true will use a test image
                     if (seedsToUse != undefined) {
                         img.alt = `${prompt} - with seed ${seedsToUse[i - 1]}`;
-                        img.src = `https://nzart.app/api/download/?prompt=${prompt}&seed=${seedsToUse[i - 1]}`;
+                        img.src = `https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seedsToUse[i - 1]}`;
                         seeds.push(seedsToUse[i - 1]);
                     }
                     else if (params.test != undefined) {
