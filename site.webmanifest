@@ -23,6 +23,6 @@
 			"purpose":"maskable"
 		}
 	],
-	"name": "Artificial Artifacts",
-	"short_name": "ArtGen"
+	"name": "NZArtApp",
+	"short_name": "ArtApp"
 }

@@ -17,12 +17,9 @@
     <meta property="og:description"
         content="Create mind blowing art in seconds for free. Utilizing stable-diffusion this text-to-image model enables multiple high resolution images to be wished into existence at a time." />
     <meta property="og:image" content="https://nzartapp.blob.core.windows.net/www/nzart-app.jpg" />
-    <link rel="apple-touch-icon" sizes="180x180"
-        href="https://nzartapp.blob.core.windows.net/www/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32"
-        href="https://nzartapp.blob.core.windows.net/www/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="https://nzartapp.blob.core.windows.net/www/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://nzartapp.blob.core.windows.net/www/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://nzartapp.blob.core.windows.net/www/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://nzartapp.blob.core.windows.net/www/favicon-16x16.png">
     <link rel="manifest"
         href="https://nzart.app/api/read?resource=site.webmanifest&code=YCW-FUCxhNKbgYs7u0QnNFAfP9-memmVW9ptBFAg6tPWAzFufEQdHg==">
 </head>
@@ -107,6 +104,7 @@
         transition: all 0.2s ease-in;
         border-radius: 4px;
     }
+
     input:hover,
     input:focus {
         box-shadow: 0px 0px 10px 5px #ffffc854;
@@ -158,21 +156,23 @@
     .chaoslabel {
         font-family: 'Roboto', sans-serif;
     }
-  
-    h1{
-        color:white;
+
+    h1 {
+        color: white;
         font-family: 'Roboto', sans-serif;
         font-size: xxx-large;
         text-align: center;
     }
-    h2{
-        color:white;
+
+    h2 {
+        color: white;
         font-family: 'Roboto', sans-serif;
         font-size: xx-large;
-        text-align: center;   
+        text-align: center;
     }
-    li{
-        color:white;
+
+    li {
+        color: white;
         text-align: center;
         font-family: 'Roboto', sans-serif;
         font-size: large;
@@ -180,9 +180,11 @@
     }
 </style>
 
-<div id="content"> 
-    <h1>Big Day Out</h1><h2>Image Generator</h2>
-    <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large;border:white;border-radius:20px;">
+<div id="content">
+    <h1>Big Day Out</h1>
+    <h2>Image Generator</h2>
+    <div class="userinput" id="userinput"
+        style="padding:1%;align-items: center;color:white;font-size:x-large;border:white;border-radius:20px;">
         <input id="displayname" placeholder="Display Name - (Optional)"
             style="text-align:center;width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;border-radius: 4px; margin-bottom: 5px;font-size:x-large;">
         </input>
@@ -203,8 +205,9 @@
             onclick="reset()">❎ Clear</button>
         </checkbox>
     </div>
-    
-<h2>Tips:</h2>
+
+    <div id="warning"></div>
+    <h2>Tips:</h2>
     <ul>
         <li>The more specific the better the result</li>
         <br>
@@ -212,9 +215,11 @@
         <br>
         <li>Specify the medium - Oil painting, watercolor, pixar render etc.</li>
         <br>
-        <li>Combine unrelated concepts:mc escher inspired, city skyline,purple and gold, sacred Geometry, Baroque art, Cinematic lighting</li>
+        <li>Combine unrelated concepts:mc escher inspired, city skyline,purple and gold, sacred Geometry, Baroque art,
+            Cinematic lighting</li>
         <br>
-        <li>It doesn't need to make sense, provide keywords for something abstract, perhaps a crazy dream you've had</li>
+        <li>It doesn't need to make sense, provide keywords for something abstract, perhaps a crazy dream you've had
+        </li>
     </ul>
     <img id="placeholder" style="display:none;"></img>
 
@@ -223,8 +228,7 @@
             document.getElementById("prompt").value = "";
         }
 
-        function create()
-        {
+        function create() {
             var prompt = document.getElementById("prompt").value;
             var displayname = document.getElementById("displayname").value;
             var btnCreate = document.getElementById("btnCreate");
@@ -241,18 +245,40 @@
 
             prompt = sanitize(prompt);
 
-            img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;  
-            
+            fetch(`https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`)
+                .then(function (response) {
+                    if (response.status == 200) {
+                        console.log(`Image loaded succesfully`);
+                        //Don't need to load the image as it's already downloaded
+                        //img.src = `https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`;
+                        addToQueue(prompt, seed, displayname);
+                        //load the image normally
+                    }
+                    else if (response.status == 400) {
+                        console.log(`Flagged the content filter - do not add to queue`)
+                        //flag to the user the promt triggered a content warning              
+                        displayWarning(prompt);
+                    }
+                    else {
+                        console.log(`Server error - adding anyway`);
+                        addToQueue(prompt, seed, displayname);
+                        //probably a server timeout - add to queue anyway.
+                    }
+                });
+        }
+
+        function addToQueue(prompt, seed, displayname) {
             var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&source=client&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
             //parse json response
             xhr.send();
+
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var RowKey = JSON.parse(xhr.responseText).RowKey;
-                    console.log(`Saved RowKey: ${RowKey}`);          
+                    console.log(`Saved RowKey: ${RowKey}`);
                     btnCreate.innerHTML = "✅- Sent to server";
 
                     sleep(1500).then(() => {
@@ -260,10 +286,16 @@
                     });
                 }
             };
-
         }
 
-        function sanitize(prompt){
+        function displayWarning(prompt) {
+            document.getElementById("warning").innerHTML = `<h2>⚠️ Sorry, we couldn't generate an image for your prompt :${prompt}. Please clear any potential content filtered words & try again.</h2>`;
+            sleep(6000).then(() => {
+                document.getElementById("warning").innerHTML = "";
+            });
+        }
+
+        function sanitize(prompt) {
             return prompt.replace(/[^a-zA-Z0-9 ]/g, "");
         }
 
