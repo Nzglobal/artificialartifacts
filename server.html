@@ -116,6 +116,8 @@
         }
     </style>
     <script type="text/javascript">
+        const state = [];
+
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
         });
@@ -129,10 +131,11 @@
         {
             var length = params.length;
         } else {
-            var length = 10;
+            var length = 200;
         }
 
         function load(index, state) {
+            console.log(`StateLength:${state.length}`);
             console.log(`index: ${index}`);
             setTimeout(function () {
                 if (index >= 0) {                
@@ -158,7 +161,8 @@
 
         async function deleteQueueMessage(messageId, popReceipt) {
             console.log(`Deleting: ${messageId} ${popReceipt}`);
-            fetch(`https://nzart.app/api/queue-fetcher?id=${messageId}&receipt=${encodeURIComponent(popReceipt)}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (
+            fetch(`https://nzart.app/api/queue-fetcher?id=${messageId}&receipt=${encodeURIComponent(popReceipt)}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`)
+            .then(function (
                 response) {
                 if (response.ok) {
                     console.log("Deleted");
@@ -199,8 +203,7 @@
             try {
                 fetch(`https://nzart.app/api/queue-fetcher?timeout${timeout}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (response) {
                     return response.json();
-                }).then(function (data) {
-                    const state = [];
+                }).then(function (data) {              
                     var qMessages = data.QueueMessagesList?.QueueMessage;
                     if (qMessages != undefined) {
                         //check type of qMessages
@@ -243,13 +246,14 @@
                         }
                         console.log(`Loaded ${state.length} unique items into state`);
 
+                        state.sort(function (a, b) {
+                                return new Date(a.InsertionTime) - new Date(b.InsertionTime);
+                        });
+
                         //checking state.lenth == {params.length or (10)} will keep {x} active images at once
                         if (state.length >= length) {
                             //sorts, so index[0] is the oldest
-                            state.sort(function (a, b) {
-                                return new Date(a.InsertionTime) - new Date(b.InsertionTime);
-                            });
-
+                        
                             //State is already sorted, so we should be able to delete the first item
                             if (state[0].MessageId != undefined && state[0].PopReceipt != undefined && Number(state[0].DequeueCount) >= 1) {
                                 console.log(`Deleting: ${JSON.stringify(state[0])}`);
@@ -265,8 +269,9 @@
             catch (e) {
                 console.error(e);
                 //Hopefully just a transient error, so try again
-                sleep(2000);
-                fetchPrompts();
+                sleep(4000).then(() => {
+                    fetchPrompts();
+                });                
             }
         }
 

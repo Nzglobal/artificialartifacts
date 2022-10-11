@@ -170,6 +170,11 @@
         font-size: xx-large;
         text-align: center;
     }
+    h3{
+        color: white;
+        font-family: 'Roboto', sans-serif;    
+        text-align: center;    
+    }
 
     li {
         color: white;
@@ -181,8 +186,9 @@
 </style>
 
 <div id="content"> 
-    <h1>BIS Day Out</h1><h2>Image Generator</h2>
-    <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large;border:white;border-radius:20px;">
+    <h1>BIS BIG DAY OUT</h1><h2>Image Generator</h2>
+    <div class="userinput" id="userinput" style="padding:1%;align-items: center;color:white;font-size:x-large;border:white;border-radius:20px;">        
+    <div id="status"></div>
         <input id="displayname" placeholder="Display Name - (Optional)"
             style="text-align:center;width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;border-radius: 4px; margin-bottom: 5px;font-size:x-large;">
         </input>
@@ -193,11 +199,7 @@
 
         <button type="button" id="btnCreate" onload="fixUrl()" onclick="create()"
             style="padding:5px;margin:auto;width:50%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">🎨
-            Create Art</button>
-        <!--<button type="button" id="btnShare" onclick="share(this)"
-            style="padding:5px;margin:auto;width:40%;float:left;background:#ffffff00;color:white;border-color:white;margin-top:2px;">&#x1F517;
-            Share
-            link</button>-->
+            Create Art</button> 
         <button type="button"
             style="padding:5px;margin:auto;width:50%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
             onclick="reset()">❎ Clear</button>
@@ -222,7 +224,9 @@
     <img id="placeholder" style="display:none;"></img>
 
     <script>
+        
         function reset() {
+            document.getElementById("displayname").value = "";
             document.getElementById("prompt").value = "";
         }
 
@@ -230,7 +234,9 @@
             var prompt = document.getElementById("prompt").value;
             var displayname = document.getElementById("displayname").value;
             var btnCreate = document.getElementById("btnCreate");
-            btnCreate.innerHTML = "📤 Sending to server...";
+            var status = document.getElementById("status");
+          
+            status.innerHTML = "<h3>📤 Sending to server... No need to wait! 😉</h3>";
 
             if (prompt == "") {
                 alert("Please enter a prompt");
@@ -242,7 +248,10 @@
             img.alt = `${prompt} - with seed ${seed}`;
 
             prompt = sanitize(prompt);
+            loadImage(prompt,seed,displayname);           
+        }
 
+        async function loadImage(prompt,seed,displayname){
             fetch(`https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`)
                 .then(function (response) {
                     if (response.status == 200) {
@@ -254,7 +263,7 @@
                     }
                     else if (response.status == 400) {
                         console.log(`Flagged the content filter - do not add to queue`)
-                        //flag to the user the promt triggered a content warning              
+                        //flag to the user the prompt triggered a content warning              
                         displayWarning(prompt);
                     }
                     else {
@@ -277,19 +286,22 @@
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var RowKey = JSON.parse(xhr.responseText).RowKey;
                     console.log(`Saved RowKey: ${RowKey}`);
-                    btnCreate.innerHTML = "✅- Sent to server";
+
+                    var status = document.getElementById("status");
+                    status.innerHTML = "<h3>✅- Sent to server</h3>";
 
                     sleep(1500).then(() => {
-                        btnCreate.innerHTML = "🎨 Create Art";
+                        status.innerHTML = "";
                     });
                 }
             };
         }
 
         function displayWarning(prompt) {
-            document.getElementById("warning").innerHTML = `<h2>⚠️ Sorry, we couldn't generate an image for your prompt :${prompt}. Please clear any potential content filtered words & try again.</h2>`;
+            document.getElementById("warning").innerHTML = `<h2>⚠️ Sorry, we can't display this image for:${prompt}. Please clear any potential content filtered words & try again.</h2>`;
             sleep(6000).then(() => {
                 document.getElementById("warning").innerHTML = "";
+                document.getElementById("status").innerHTML = "";
             });
         }
 
