@@ -265,7 +265,7 @@
         }
 
         async function loadImage(prompt, seed, displayname) {
-            fetch(`https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`)
+            fetch(`https://nzart.app/api/download/${prompt}?seed=${seed}`)
                 .then(function (response) {
                     if (response.status == 200) {
                         console.log(`Image loaded succesfully`);
