@@ -127,7 +127,7 @@
         if (params.length != undefined) {
             var length = params.length;
         } else {
-            var length = 200;
+            var length = 999;
         }
 
         function load(index, state) {
@@ -196,7 +196,6 @@
                 timeout = params.timeout;
             }
 
-
             fetch(`https://nzart.app/api/queue-fetcher?timeout${timeout}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (response) {
                 return response.json();
             }).then(function (data) {
@@ -263,19 +262,17 @@
                 } else {
                     backgroundCheck();
                 }
-            }).catch(function() {
+            }).catch(function () {
                 backgroundCheck();
             });
-
         }
 
         function backgroundCheck() {
-       
-                console.log("No prompts in queue, checking again in 5 seconds");
-                sleep(5000).then(() => {
-                    fetchPrompts();
-                });
-            
+            console.log("No prompts in queue, checking again in 5 seconds");
+            sleep(5000).then(() => {
+                fetchPrompts();
+            });
+
         }
 
         function sleep(ms) {
