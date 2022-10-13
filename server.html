@@ -37,13 +37,13 @@
             font-family: 'Roboto', sans-serif;
         }
 
-        img {
-            scale: 1;
+        img {      
             animation: fadein 1s ease-in-out;
-            border: white;
+            border: white;            
             border-radius: 20px;
             border-style: solid;
-            border-width: thick;
+            border-width: 10px;
+            width:70%
         }
 
         .container {
@@ -51,8 +51,7 @@
             display: flex;
         }
 
-        h1 {
-            font-size: xx-large;
+        h1 {          
             font-weight: 500;
             color: white;
             font-family: 'Roboto', sans-serif;
@@ -60,14 +59,14 @@
         }
 
         h2 {
+            font-size: 3em;
             animation: fadein 1s ease-in-out;
             font-family: fantasy;
             color: white;
             font-weight: 200;
         }
 
-        .prompttext {
-            font-size: large;
+        .prompttext {     
             color: white;
             font-family: 'Roboto', sans-serif;
             margin-top: 90%;
@@ -82,8 +81,7 @@
             top: 20px;
         }
 
-        .header>h1 {
-            font-size: xx-large;
+        .header>h1 {     
             color: white;
         }
 
@@ -91,8 +89,7 @@
             align-items: center;
         }
 
-        .footer>h1 {
-            font-size: xx-large;
+        .footer>h1 {       
             color: white;
         }
 
@@ -100,6 +97,16 @@
             font-size: xx-large;
             color: white;
             font-weight: 400;
+        }
+        #presenter{
+            padding:5px;
+            font-size: 4em;
+            color:white;
+        }
+        #prompttext{
+            padding:4px;
+            font-size: 3em;
+            color:white;;
         }
 
         @keyframes fadein {
@@ -173,9 +180,9 @@
             console.log(`Generating image for ${displayname} using:${prompt} - seed:${seed}`);
             img.src = `https://nzart.app/api/duplicator?prompt=${prompt}&seed=${seed}`;
 
-            document.getElementById("prompttext").innerHTML = `${prompt}`; //- ${state[index].InsertionTime}`;
             document.getElementById("presenter").innerHTML = `${displayname} presents...`;
-            //if image isn't in container add it, otherwise replace it
+            document.getElementById("prompttext").innerHTML = `${prompt}`; //- ${state[index].InsertionTime}`;
+             //if image isn't in container add it, otherwise replace it
             if (document.getElementById("container").children.length > 0) {
                 document.getElementById("container").replaceChild(img, document.getElementById("container").children[0]);
             } else {
@@ -280,18 +287,19 @@
         }
     </script>
 </head>
-<div id="intro">
-    <h1>BIS - Big Day Out - Art Exhibition</h1>
-</div>
+<!--<div id="intro">
+    <h1 id>BIS - Big Day Out - Art Exhibition</h1>
+</div>-->
 <div id="header">
-    <h1 id="presenter"></h1>
+    <div id="presenter">BIS - Big Day Out - Art Exhibition</div>
 </div>
 
 <body onload="fetchPrompts()">
-    <flexbox id="container"></flexbox>
+    <flexbox id="container"><img id="init" src="https://nzartapp.blob.core.windows.net/www/art-monster.jpg"></img></flexbox>
 </body>
 <footer>
-    <h1 id="prompttext"></h1>
+    <div id="prompttext">nzart.app/client<br>       
+    </div>
 </footer>
 
 </html>
