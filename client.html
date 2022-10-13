@@ -257,7 +257,10 @@
             }
             var img = document.getElementById("placeholder");
 
-            seed = Math.floor(Math.random() * 1000000);
+            //seed = Math.floor(Math.random() * 1000000);
+            //console.log(`OriginalSeed:${seed},New Seed:${generateSeed()}`);
+
+            var seed = generateSeed();
             img.alt = `${prompt} - with seed ${seed}`;
 
             prompt = sanitize(prompt);
@@ -326,6 +329,17 @@
                 document.getElementById("warning").innerHTML = "";
                 document.getElementById("status").innerHTML = "";
             });
+        }
+
+        var timeToClick = 0;
+        var timeToClickStart = 0;
+        var timeToClickEnd = 0;
+        var timeToClickStart = Date.now();
+        function generateSeed(){               
+            var timeToClickEnd = Date.now();
+            var timeToClick = timeToClickEnd - timeToClickStart;
+            console.log(`TimeToClick: ${timeToClick}`);
+            return timeToClick;
         }
 
         function sanitize(prompt) {
