@@ -31,7 +31,7 @@
             background-attachment: fixed;
             margin: auto;
             overflow: scroll;
-            background: linear-gradient(33deg, #007029, #49c443)fixed;
+            background: linear-gradient(33deg,#4e4376, #2b5876)fixed;
             overflow-x: hidden;
             text-align: center;
             font-family: 'Roboto', sans-serif;
@@ -121,6 +121,7 @@
     </style>
     <script type="text/javascript">
         const state = [];
+        var roomCode = "";
 
         const params = new Proxy(new URLSearchParams(window.location.search), {
             get: (searchParams, prop) => searchParams.get(prop),
@@ -201,7 +202,8 @@
             timeout = 3; //3 seconds
             if (params.timeout) {
                 timeout = params.timeout;
-            }
+            }         
+            if(roomCode == ""){ updateRoomCode();}
 
             fetch(`https://nzart.app/api/queue-fetcher?timeout${timeout}&code=RNCJOcxB66TXjTvtRGP8FJ9ZiLriakVw9ev09azhcNTMAzFu5a6hfg==`).then(function (response) {
                 return response.json();
@@ -220,7 +222,7 @@
 
                             //only add to state if the prompt value is not already in state
                             if (state.filter(x => JSON.parse(atob(x.MessageText)).PromptText == json.PromptText).length == 0) {
-                                if (json.Source == "client") {
+                                if (json.Source == roomCode) {
                                     console.log(`Prompt:${json.PromptText} does not exist in state, adding to state:DequeueCount:${element.DequeueCount}`);
                                     state.push(element);
                                 }
@@ -237,7 +239,7 @@
 
                         //we don't want to add duplicates to state                           
                         if (state.filter(x => JSON.parse(atob(x.MessageText)).PromptText == json.PromptText).length == 0) {
-                            if (json.Source == "client") {
+                            if (json.Source == roomCode) {
                                 console.log(`Prompt:${json.PromptText} does not exist in state, adding to state`);
                                 state.push(qMessages);
                             }
@@ -285,20 +287,31 @@
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
+    
+        function getRoomCode(){
+            return Math.random().toString(36).slice(2).substring(0,5);
+        }        
+
+        function updateRoomCode(){         
+            roomCode = getRoomCode();
+            console.log(`Room Code is: ${roomCode}`)
+            document.getElementById("roomCode").innerHTML = `Room Code: ${roomCode}`;            
+        }
     </script>
 </head>
 <!--<div id="intro">
     <h1 id>BIS - Big Day Out - Art Exhibition</h1>
 </div>-->
 <div id="header">
-    <div id="presenter">BIS - Big Day Out - Art Exhibition</div>
+    <div id="presenter">Art Exhibition</div>
 </div>
 
 <body onload="fetchPrompts()">
     <flexbox id="container"><img id="init" src="https://nzartapp.blob.core.windows.net/www/art-monster.jpg"></img></flexbox>
 </body>
 <footer>
-    <div id="prompttext">nzart.app/client<br>       
+    <div id="prompttext">nzart.app/client<br>  
+    <div id="roomCode"><br>       
     </div>
 </footer>
 

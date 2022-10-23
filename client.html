@@ -83,7 +83,7 @@
         background-attachment: fixed;
         margin: auto;
         overflow: scroll;
-        background: linear-gradient(33deg, #007029, #49c443)fixed;
+        background: linear-gradient(33deg,#4e4376, #2b5876)fixed;
         overflow-x: hidden;
         /*
             background image would cover entire page, but blur would only affect content in vertical strip
@@ -197,13 +197,13 @@
 </style>
 
 <div id="content">
-    <h1>BIS BIG DAY OUT</h1>
-    <h2>The day is over, but the fun doesn't have to be!<br>
-        Head over to <a href="https://nzart.app/">nzart.app</a> to generate art on your own device</h2>
-    <!--<h2>Image Generator</h2>
+    <h2>Image Generator</h2>
     <div class="userinput" id="userinput"
         style="padding:1%;align-items: center;color:white;font-size:x-large;border:white;border-radius:20px;">
         <div id="status"></div>
+        <input id="roomcode" placeholder="Room Code"
+        style="text-align:center;width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;border-radius: 4px; margin-bottom: 5px;font-size:x-large;">
+        </input>
         <input id="displayname" placeholder="Display Name - (Optional)"
             style="text-align:center;width:100%;padding:5px;font-weight:bold;font-family: 'Roboto', sans-serif;border-radius: 4px; margin-bottom: 5px;font-size:x-large;">
         </input>
@@ -219,9 +219,9 @@
             style="padding:5px;margin:auto;width:50%;float:right;background:#ffffff00;color:white;border-color:white;margin-top:2px;"
             onclick="reset()">❎ Clear</button>
         </checkbox>
-    </div>-->
+    </div>
 
-    <!--<div id="warning"></div>
+    <div id="warning"></div>
     <h2>Tips:</h2>
     <ul>
         <li>The more specific the better the result</li>
@@ -237,8 +237,6 @@
         </li>
     </ul>
     <img id="placeholder" style="display:none;"></img>
--->
-
     <script>
 
         function reset() {
@@ -247,10 +245,11 @@
         }
 
         function create() {
+            var roomCode = document.getElementById("roomcode").value;
             var prompt = document.getElementById("prompt").value;
             var displayname = document.getElementById("displayname").value;
             var btnCreate = document.getElementById("btnCreate");
-            var status = document.getElementById("status");
+            var status = document.getElementById("status");            
 
             status.innerHTML = "<h3>📤 Sending to server... No need to wait! 😉</h3>";
 
@@ -267,17 +266,17 @@
             img.alt = `${prompt} - with seed ${seed}`;
 
             prompt = sanitize(prompt);
-            loadImage(prompt, seed, displayname);
+            loadImage(prompt, seed, displayname,roomCode);
         }
 
-        async function loadImage(prompt, seed, displayname) {
+        async function loadImage(prompt, seed, displayname,roomCode) {
             fetch(`https://nzart.app/api/download/${prompt}?seed=${seed}`)
                 .then(function (response) {
                     if (response.status == 200) {
                         console.log(`Image loaded succesfully`);
                         //Don't need to load the image as it's already downloaded
                         //img.src = `https://nzart.app/api/download/${prompt}?prompt=${prompt}&seed=${seed}`;
-                        addToQueue(prompt, seed, displayname);
+                        addToQueue(prompt, seed, displayname, roomCode);
                         //load the image normally
                     }
                     else if (response.status == 400) {
@@ -291,14 +290,14 @@
                     }
                     else {
                         console.log(`Server error - adding anyway`);
-                        addToQueue(prompt, seed, displayname);
+                        addToQueue(prompt, seed, displayname,roomCode);
                         //probably a server timeout - add to queue anyway.
                     }
                 });
         }
 
-        function addToQueue(prompt, seed, displayname) {
-            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&source=client&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
+        function addToQueue(prompt, seed, displayname,roomCode) {
+            var url = `https://nzart.app/api/url-helper?prompt=${prompt}&seeds=${seed}&name=${displayname}&source=${roomCode}&code=3gMnVAfKvJOS9vPM4RKS6djoGEMlOBylE3Q_SONGrUHJAzFut5Zvyw==`;
             var xhr = new XMLHttpRequest();
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-Type", "application/json");
